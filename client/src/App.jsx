@@ -1,31 +1,23 @@
-import './App.css'
+import '../src/stylesheets/App.css'
 import { useState, useEffect } from 'react'
+import AppNavbar from './components/Navbar'
+import Discover from "./pages/Discover"
+import Library from "./pages/Library"
+import Register from "./pages/Register"
+import { Routes, BrowserRouter, Route } from "react-router-dom"
+
 
 function App() {
-  const [message, setMessage] = useState('Checking connection...');
-  
-  useEffect(() => {
-    fetch('/api/hello')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to connect to the backend API.');
-        }
-        return response.text();
-      })
-      .then(data => {
-        setMessage(`Success! Backend says: "${data}"`);
-      })
-      .catch(err => {
-        console.error('Connection Error:', err);
-        setMessage('Connection Failed. Check your Node server and proxy settings.');
-      })
-  }, [])
-
   return (
-    <div style={{ padding: '20px', border: '1px solid #ccc' }}>
-      <h2>Connection Test Status</h2>
-      <p>{message}</p>
-    </div>
+    <BrowserRouter>
+      <AppNavbar/>
+      <Routes>
+        <Route path="/" element={<Discover />} />
+        <Route path="/LibraryPage" element={<Library />} />
+        <Route path="/RegisterPage" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
+    
   )
 }
 
