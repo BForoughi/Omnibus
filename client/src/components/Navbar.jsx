@@ -6,11 +6,11 @@ import "../stylesheets/Navbar.css"
 function AppNavbar(){
     return(
         <Navbar expand="lg" className='app-nav'>
-            <Container className='app-nav_inner'>
+            <Container className='app-nav_inner ms-0'>
                 <Navbar.Toggle aria-controls='app-navbar-nav' className='app-nav_toggle'/>
 
                 <Navbar.Collapse id='app-navbar-nav'>
-                    <Nav className='app-nav_links ms-auto'>
+                    <Nav className='app-nav_links'>
                         <Nav.Link as={NavLink} to="/" className='app-nav_link'>
                             <span className='app-nav_label'>Discover</span>
                         </Nav.Link>

@@ -1,6 +1,5 @@
 import '../src/stylesheets/App.css'
 import { useState, useEffect } from 'react'
-import AppNavbar from './components/Navbar'
 import Discover from "./pages/Discover"
 import Library from "./pages/Library"
 import Register from "./pages/Register"
@@ -10,7 +9,6 @@ import { Routes, BrowserRouter, Route } from "react-router-dom"
 function App() {
   return (
     <BrowserRouter>
-      <AppNavbar/>
       <Routes>
         <Route path="/" element={<Discover />} />
         <Route path="/LibraryPage" element={<Library />} />
