@@ -1,11 +1,16 @@
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
+// -------Requiring node modules-------
+import 'dotenv/config'
+import express from 'express'
+import cors from 'cors'
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+// ----------server controller---------
+const PORT = process.env.PORT || 4000
+const app = express()
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 app.use(express.json());
 
 // Example route
