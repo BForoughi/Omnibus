@@ -1,0 +1,68 @@
+.app-nav {
+    position: relative;
+    top: 19vw;
+    height: 10vh;
+    width: 200px;
+    align-items: flex-start !important;
+    margin-left: 1vw;
+}
+
+.app-nav_inner{
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+}
+
+.app-nav_inner::before {
+  content: '';
+  position: absolute;
+  top: -10px; /* gap from top border */
+  left: 0;
+  right: 0;
+  border-top: 3px solid black;
+}
+
+.app-nav_inner::after {
+  content: '';
+  position: absolute;
+  top: 225px; /* gap from bottom border */
+  left: 0;
+  right: 0;
+  border-bottom: 3px solid black;
+}
+
+.app-nav_links{
+    margin-top: 10px;
+    margin-bottom: 13px;
+}
+
+.app-nav_label{
+    font-size: 1.5rem;
+    font-family: 'roboto-mono', monospace;
+    font-weight: 600;
+    text-decoration: underline;
+    margin-left: 0px;
+    color: black;
+}
+
+/* Mobile - letting bootstrap take over as a top navbar */
+@media (max-width: 992px) {
+    .app-nav {
+        height: auto;
+        top: 0;
+        margin-left: 5px;
+    }
+
+    .app-nav_inner{
+        border-top: 0px solid black;
+        border-bottom: 0px solid black;
+    }
+
+    .app-nav_inner::before {
+        border-top: 0px;
+    }
+
+    .app-nav_inner::after {
+        border-bottom: 0px;
+    }
+
+}

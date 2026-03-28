@@ -1,5 +1,6 @@
 #root {
   padding: 1%;
+  background-color: #FDFFF8;
 }
 
 .banner-container {
@@ -13,56 +14,54 @@
   padding: 40px;
   width: 50%;
   max-width: 75vw;
+  @media (max-width: 1025px) {
+    width: 60%;
+  }
+
 }
 
 .banner-inner {
-  background-color: #e8503a;
-  padding-top: clamp(6px, 10px, 24px);
-  padding-bottom: clamp(6px, 15px, 24px);
+  background-color: #E8503A;
+  padding-top: clamp(8px, 10px, 24px);
+  padding-bottom: clamp(8px, 15px, 24px);
   text-align: center;
 }
 
 .banner-inner h1 {
   color: white;
-  font-size: clamp(2rem, 7.5vw, 10rem);
-  letter-spacing: 8px;
+  font-size: clamp(3rem, 7.5vw, 10rem);
+  letter-spacing: 15px;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Corner brackets */
 .bracket {
   position: absolute;
-  width: clamp(20px, 3vw, 7vw);
-  height: clamp(20px, 3vw, 7vw);
+  width: clamp(30px, 3vw, 7vw);
+  height: clamp(30px, 3vw, 7vw);
 }
 
-.bracket-tl {
-  top: 0;
-  left: 0;
-  border-top: 8px solid #e8503a;
-  border-left: 8px solid #e8503a;
-}
-.bracket-tr {
-  top: 0;
-  right: 0;
-  border-top: 8px solid #e8503a;
-  border-right: 8px solid #e8503a;
-}
-.bracket-bl {
-  bottom: 0;
-  left: 0;
-  border-bottom: 8px solid #e8503a;
-  border-left: 8px solid #e8503a;
-}
-.bracket-br {
-  bottom: 0;
-  right: 0;
-  border-bottom: 8px solid #e8503a;
-  border-right: 8px solid #e8503a;
-}
+.bracket-tl { top: 0; left: 0; border-top: clamp(3px, 1.5vw, 8px) solid #E8503A; border-left: clamp(3px, 1.5vw, 8px) solid #E8503A; }
+.bracket-tr { top: 0; right: 0; border-top: clamp(3px, 1.5vw, 8px) solid #E8503A; border-right: clamp(3px, 1.5vw, 8px) solid #E8503A; }
+.bracket-bl { bottom: 0; left: 0; border-bottom: clamp(3px, 1.5vw, 8px) solid #E8503A; border-left: clamp(3px, 1.5vw, 8px) solid #E8503A; }
+.bracket-br { bottom: 0; right: 0; border-bottom: clamp(3px, 1.5vw, 8px) solid #E8503A; border-right: clamp(3px, 1.5vw, 8px) solid #E8503A; }
 
 @media (max-width: 768px) {
+  .banner-container {
+    margin-top: 7vw;
+  }
   .banner-wrapper {
-    width: 90%;        /* full width on mobile */
-    padding: 8px;
+    width: 100%;      
+    padding: 20px;
+    max-width: 90vw;
+  }
+
+  .banner-inner {
+    padding-top: clamp(10px, 17px, 24px);
+    padding-bottom: clamp(11px, 15px, 24px);
+  }
+
+  .banner-inner h1 {
+    letter-spacing: 11px;
   }
 }
