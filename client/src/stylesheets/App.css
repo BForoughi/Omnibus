@@ -12,8 +12,8 @@ body {
   position: relative;
   display: inline-block;
   padding: 40px;
-  width: 50%;
-  max-width: 75vw;
+  width: 47%;
+  max-width: 70vw;
   @media (max-width: 1025px) {
     width: 60%;
   }
@@ -22,14 +22,14 @@ body {
 
 .banner-inner {
   background-color: #E8503A;
-  padding-top: clamp(8px, 15px, 24px);
-  padding-bottom: clamp(8px, 15px, 24px);
+  padding-top: clamp(8px, 10px, 24px);
+  padding-bottom: clamp(8px, 10px, 24px);
   text-align: center;
 }
 
 .banner-inner h1 {
   color: white;
-  font-size: clamp(3rem, 7.5vw, 10rem);
+  font-size: clamp(3rem, 7vw, 10rem);
   letter-spacing: 12px;
   font-family: 'Poppins', sans-serif;
 }
@@ -45,6 +45,22 @@ body {
 .bracket-tr { top: 0; right: 0; border-top: clamp(3px, 1.5vw, 8px) solid #E8503A; border-right: clamp(3px, 1.5vw, 8px) solid #E8503A; }
 .bracket-bl { bottom: 0; left: 0; border-bottom: clamp(3px, 1.5vw, 8px) solid #E8503A; border-left: clamp(3px, 1.5vw, 8px) solid #E8503A; }
 .bracket-br { bottom: 0; right: 0; border-bottom: clamp(3px, 1.5vw, 8px) solid #E8503A; border-right: clamp(3px, 1.5vw, 8px) solid #E8503A; }
+
+#slogan{
+  text-align: center;
+  font-size: 1.5rem;
+  font-family: 'roboto-mono', monospace;
+  font-weight: 400;
+  margin-top: 65px;
+}
+
+#landingcomics-container{
+  margin-top: 140px;
+}
+
+#landingPageComics{
+  width: 50%;
+}
 
 @media (max-width: 768px) {
   .banner-container {
