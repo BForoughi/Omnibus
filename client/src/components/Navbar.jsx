@@ -1,7 +1,8 @@
 import {Navbar, Nav, Container} from 'react-bootstrap'
 import {NavLink} from 'react-router-dom'
 import "../stylesheets/Navbar.css"
-// Taken from react bootstrap docs
+import NavSearchBar from './SearchBar'
+// Edited from react bootstrap docs
 
 function AppNavbar(){
     return(
@@ -17,6 +18,7 @@ function AppNavbar(){
                         <Nav.Link as={NavLink} to="/LibraryPage" className='app-nav_link mb-2 ps-1'>
                             <span className='app-nav_label'>Library</span>
                         </Nav.Link>
+                        <NavSearchBar />
                         <Nav.Link as={NavLink} to="/RegisterPage" className='app-nav_link ps-1'>
                             <span className='app-nav_label'>Register</span>
                         </Nav.Link>

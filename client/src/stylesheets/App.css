@@ -1,4 +1,4 @@
-#root {
+body {
   padding: 1%;
   background-color: #FDFFF8;
 }
@@ -22,7 +22,7 @@
 
 .banner-inner {
   background-color: #E8503A;
-  padding-top: clamp(8px, 10px, 24px);
+  padding-top: clamp(8px, 15px, 24px);
   padding-bottom: clamp(8px, 15px, 24px);
   text-align: center;
 }
@@ -30,7 +30,7 @@
 .banner-inner h1 {
   color: white;
   font-size: clamp(3rem, 7.5vw, 10rem);
-  letter-spacing: 15px;
+  letter-spacing: 12px;
   font-family: 'Poppins', sans-serif;
 }
 

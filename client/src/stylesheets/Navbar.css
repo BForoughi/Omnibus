@@ -66,3 +66,58 @@
     }
 
 }
+
+.app-nav_search {
+    overflow: visible;
+    position: relative;
+}
+
+.app-nav_search-trigger {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.app-nav_search-dropdown {
+    position: absolute;
+    top: auto;
+    left: 0;
+    z-index: 1000;
+}
+
+.app-nav_search-input {
+    width: 25vw;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background: #97979738;
+    font-family: 'Roboto Mono', monospace;
+    outline: none;
+    /* mobile */
+    @media (max-width: 992px) {
+        width: 50vw;
+    }
+}
+
+.app-nav_search-results {
+    position: absolute;  /* makes the dropdown float over the rest of the nav */
+    top: 100%;
+    left: 0;
+    width: 40vw;
+    z-index: 1000;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: white;
+    border: 1px solid #ccc;
+    /* mobile */
+    @media (max-width: 992px) {
+        width: 60vw;
+    }
+}
+
+.app-nav_search-result {
+    padding: 14px 16px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    font-family: 'Roboto Mono', monospace;
+}
