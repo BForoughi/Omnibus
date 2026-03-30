@@ -24,7 +24,7 @@
 .app-nav_inner::after {
   content: '';
   position: absolute;
-  top: 225px; /* gap from bottom border */
+  top: 275px; /* gap from bottom border */
   left: 0;
   right: 0;
   border-bottom: 3px solid black;
@@ -32,7 +32,11 @@
 
 .app-nav_links{
     margin-top: 10px;
-    margin-bottom: 13px;
+    margin-bottom: 25px;
+}
+
+.app-nav_link{
+    margin-bottom: 10px;
 }
 
 .app-nav_label{
@@ -42,6 +46,10 @@
     text-decoration: underline;
     margin-left: 0px;
     color: black;
+}
+
+.search-container{
+    padding: 8px;
 }
 
 /* Mobile - letting bootstrap take over as a top navbar */
@@ -65,6 +73,21 @@
         border-bottom: 0px;
     }
 
+    .search-container{
+        padding: 0px;
+    }
+
+    .app-nav_links{
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .app-nav_link{
+        margin-bottom: 0px;
+        padding-top: 5px;
+        padding-bottom: 0px;
+        padding-left: 3px;
+    }
 }
 
 .app-nav_search {
@@ -120,4 +143,8 @@
     border-bottom: 1px solid #eee;
     cursor: pointer;
     font-family: 'Roboto Mono', monospace;
+}
+
+.app-nav_register-label{
+    color: #E8503A;
 }

@@ -12,15 +12,15 @@ function AppNavbar(){
 
                 <Navbar.Collapse id='app-navbar-nav'>
                     <Nav className='app-nav_links flex-column align-items-start'>
-                        <Nav.Link as={NavLink} to="/" className='app-nav_link mb-2 ps-1'>
+                        <Nav.Link as={NavLink} to="/" className='app-nav_link'>
                             <span className='app-nav_label'>Discover</span>
                         </Nav.Link>
-                        <Nav.Link as={NavLink} to="/LibraryPage" className='app-nav_link mb-2 ps-1'>
+                        <Nav.Link as={NavLink} to="/LibraryPage" className='app-nav_link'>
                             <span className='app-nav_label'>Library</span>
                         </Nav.Link>
                         <NavSearchBar />
-                        <Nav.Link as={NavLink} to="/RegisterPage" className='app-nav_link ps-1'>
-                            <span className='app-nav_label'>Register</span>
+                        <Nav.Link as={NavLink} to="/RegisterPage" className='app-nav_link'>
+                            <span className='app-nav_label app-nav_register-label'>Register</span>
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>

@@ -32,9 +32,12 @@ function NavSearchBar(){
                     className='app-nav_search-input'
                 />
             ) : (
-                <span className='app-nav_link app-nav_search-trigger' onClick={() => setSearchOpen(true)}>
-                    Search...
-                </span>
+                <div className="app-nav_link search-container">
+                    <span className='app-nav_label app-nav_search-trigger' onClick={() => setSearchOpen(true)}>
+                        Search...
+                    </span>
+                </div>
+                
             )}
 
             {/* displaying search results */}
