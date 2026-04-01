@@ -6,11 +6,20 @@ function NavSearchBar(){
     const [query, setQuery] = useState("");
     const [results, setResults] = useState([]);
 
-    const handleSearch = (e) => {
-        setQuery(e.target.value);
-        // replace this code with logic that queries comic vine api
-        if (e.target.value.length > 0) {
-            setResults(['Result 1', 'Result 2', 'Result 3']);
+    // The function that proccesses the users search and sends it to the backend route to be quried to the api
+    const handleSearch = async (e) => {
+        const value = e.target.value; // storing the users input into "value"
+        setQuery(value);
+
+        // search after 3 characters
+        if (value.length > 2) {
+            try{
+                const response = await fetch(`/api/search?query=${value}`); // passing "value" through the search route
+                const data = await response.json(); // receiving data
+                setResults(data.results || []);
+            } catch (err){
+                console.error('Search failed', err)
+            }
         } else {
             setResults([]);
         }
@@ -43,8 +52,8 @@ function NavSearchBar(){
             {/* displaying search results */}
             {results.length > 0 && (
                 <ul className='app-nav_search-results'>
-                    {results.map((r, i) => (
-                        <li key={i} className='app-nav_search-result'>{r}</li>
+                    {results.map((item, i) => (
+                        <li key={i} className='app-nav_search-result'>{item.name} - {item.resource_type}</li>
                     ))}
                 </ul>
             )}

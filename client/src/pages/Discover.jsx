@@ -1,6 +1,7 @@
-import AppNavbar from "../components/Navbar"
-import Banner from "../components/Banner"
-import landingPageComics from '../assets/landingpageComics.png'
+import AppNavbar from "../components/Navbar";
+import Banner from "../components/Banner";
+import landingPageComics from '../assets/landingpageComics.png';
+
 
 function Discover(){
     return(
