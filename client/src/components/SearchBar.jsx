@@ -16,7 +16,7 @@ function NavSearchBar(){
             try{
                 const response = await fetch(`/api/search?query=${value}`); // passing "value" through the search route
                 const data = await response.json(); // receiving data
-                setResults(data.results || []);
+                setResults((data.results || []).slice(0, 5));
             } catch (err){
                 console.error('Search failed', err)
             }

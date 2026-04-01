@@ -29,7 +29,7 @@ app.get('/api/search', async (req, res) => {
 
   try{
     const response = await fetch(
-      `https://comicvine.gamespot.com/api/search/?api_key=${KEY}&format=json&query=${query}&resources=character,issue,volume,publisher`
+      `https://comicvine.gamespot.com/api/search/?api_key=${KEY}&format=json&query=${query.toLowerCase()}&resources=character,issue,volume,publishers@limit=5`
     );
     const data = await response.json();
     res.json(data);
