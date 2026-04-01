@@ -28,11 +28,26 @@ app.get('/api/search', async (req, res) => {
   const { query } = req.query; // receiving the "value" aka query from frontend in handleSearch function
 
   try{
-    const response = await fetch(
-      `https://comicvine.gamespot.com/api/search/?api_key=${KEY}&format=json&query=${query.toLowerCase()}&resources=character,issue,volume,publishers@limit=5`
-    );
-    const data = await response.json();
-    res.json(data);
+    const [searchRes, publisherRes] = await Promise.all([
+      fetch(`https://comicvine.gamespot.com/api/search/?api_key=${KEY}&format=json&query=${query.toLowerCase()}&resources=character,issue,volume&limit=8`),
+      fetch(`https://comicvine.gamespot.com/api/publishers/?api_key=${KEY}&format=json&filter=name:${query}&limit=2`)
+    ]);
+    const searchData = await searchRes.json();
+    const publisherData = await publisherRes.json();
+
+    const publishers = (publisherData.results || []).map(p => ({
+      ...p,
+      resource_type: 'publisher'
+    }));
+
+    // ordering the return data 
+    const order = { publisher: 0, character: 1, volume: 2, issue: 3 };
+
+    // sorting the merged array by priority
+    const combined = [...(searchData.results || []), ...publishers]
+      .sort((a, b) => (order[a.resource_type] ?? 99) - (order[b.resource_type] ?? 99))
+      .slice(0, 5);
+    res.json({ results: combined });
   }catch (err){
     console.error("Search failed:", err);
     res.status(500).json({
