@@ -1,0 +1,19 @@
+.comic-card {
+    display: flex;
+    flex-direction: column;
+    width: 245px;
+    cursor: pointer;
+}
+
+.comic-card_img {
+    width: 100%;
+    aspect-ratio: 2/3;    
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.comic-card_name {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1rem;
+    margin-top: 6px;
+}

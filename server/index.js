@@ -56,3 +56,34 @@ app.get('/api/search', async (req, res) => {
     });
   }
 })
+
+// Displaying comics on the discover page router
+app.get('/api/discover', async (req, res) => {
+  // this is for the featured section - my personal favourites - id's are taken from comic vine
+  const featuredIds = [88566, 1074455, 265714, 39997];
+
+  const [featuredRes, popularRes, recentRes, seriesRes] = await Promise.all([
+    // featured
+    fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&filter=id:${featuredIds.join(',')}`),
+    // popular issues - most reviews
+    fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&sort=number_of_user_reviews:desc&limit=10`),
+    // recent issues - newly added
+    fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&sort=date_added:desc&limit=10`),
+    // popular series - volumes with most reviews
+    fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&sort=number_of_user_reviews:desc&limit=10`)
+  ]);
+
+  const [featuredData, popularData, recentData, seriesData] = await Promise.all([
+    featuredRes.json(),
+    popularRes.json(),
+    recentRes.json(),
+    seriesRes.json()
+  ]);
+
+  res.json({
+    featured: featuredData.results || [],
+    popular: popularData.results || [],
+    recent: recentData.results || [],
+    series: seriesData.results || []
+  });
+})
