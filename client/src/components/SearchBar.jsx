@@ -53,7 +53,15 @@ function NavSearchBar(){
             {results.length > 0 && (
                 <ul className='app-nav_search-results'>
                     {results.map((item, i) => (
-                        <li key={i} className='app-nav_search-result'>{item.name} - {item.resource_type}</li>
+                        <li key={i} className='app-nav_search-result'>
+                            <img 
+                                src={item.image?.icon_url} 
+                                alt={item.name}
+                                className='app-nav_search-result-img'
+                            />
+                            <span className='result-name'> {item.name} - </span>
+                            <span className='result-type'>{item.resource_type}</span>
+                        </li>
                     ))}
                 </ul>
             )}
