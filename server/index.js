@@ -28,6 +28,7 @@ app.get('/api/search', async (req, res) => {
   const { query } = req.query; // receiving the "value" aka query from frontend in handleSearch function
 
   try{
+    // querying the comic vine api to allow the user to search
     const [searchRes, publisherRes] = await Promise.all([
       fetch(`https://comicvine.gamespot.com/api/search/?api_key=${KEY}&format=json&query=${query.toLowerCase()}&resources=character,issue,volume&limit=8`),
       fetch(`https://comicvine.gamespot.com/api/publishers/?api_key=${KEY}&format=json&filter=name:${query}&limit=2`)
@@ -40,10 +41,10 @@ app.get('/api/search', async (req, res) => {
       resource_type: 'publisher'
     }));
 
-    // ordering the return data 
+    // ordering the return data - this is so important searches like publishers don't get lost
     const order = { publisher: 0, character: 1, volume: 2, issue: 3 };
 
-    // sorting the merged array by priority
+    // sorting the merged array by priority and then limiting the search results to 5
     const combined = [...(searchData.results || []), ...publishers]
       .sort((a, b) => (order[a.resource_type] ?? 99) - (order[b.resource_type] ?? 99))
       .slice(0, 5);
@@ -60,30 +61,65 @@ app.get('/api/search', async (req, res) => {
 // Displaying comics on the discover page router
 app.get('/api/discover', async (req, res) => {
   // this is for the featured section - my personal favourites - id's are taken from comic vine
-  const featuredIds = [88566, 1074455, 265714, 39997];
+  // they're split because of comic vines inconsictent categorisation
+  const featuredVolumeIds = [88566, 39997];
+  const featuredIssueIds = [1074455, 265714];
 
-  const [featuredRes, popularRes, recentRes, seriesRes] = await Promise.all([
-    // featured
-    fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&filter=id:${featuredIds.join(',')}`),
-    // popular issues - most reviews
-    fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&sort=number_of_user_reviews:desc&limit=10`),
-    // recent issues - newly added
-    fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&sort=date_added:desc&limit=10`),
-    // popular series - volumes with most reviews
-    fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&sort=number_of_user_reviews:desc&limit=10`)
-  ]);
+  // when I first returned the most recent comics, comic vine api returned a lot of hentai(manga pornography) - being that hentai is highly inappropriate I explained to claude  
+  // the situation and asked what I should do to fix it - claude recommended i use a blacklist of publishers that return inappropriate content
+  // claude provided a list - https://claude.ai/new
 
-  const [featuredData, popularData, recentData, seriesData] = await Promise.all([
-    featuredRes.json(),
-    popularRes.json(),
-    recentRes.json(),
-    seriesRes.json()
-  ]);
+  const blockedPublisherIds = [7768, 4727];
 
-  res.json({
-    featured: featuredData.results || [],
-    popular: popularData.results || [],
-    recent: recentData.results || [],
-    series: seriesData.results || []
-  });
+  try{
+    // fire all API requests at the same time
+    const [featuredVolumesRes, featuredIssuesRes, popularRes, recentRes, seriesRes] = await Promise.all([
+      // featured volumes - fetches volumes by their IDs
+      fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&filter=id:${featuredVolumeIds.join('|')}`),
+      // featured issues - fetches collected issues by their IDs
+      fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&filter=id:${featuredIssueIds.join('|')}`),
+      // popular volumes - most added to user lists
+      fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&sort=count_of_user_lists:desc&limit=100`),
+      // recent volumes - newly added
+      fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&sort=date_added:desc&limit=100`),
+      // popular series - volumes with most reviews
+      fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&sort=number_of_user_reviews:desc&limit=100`)
+    ]);
+
+    // parse all responses as JSON at the same time
+    const [featuredVolumesData, featuredIssuesData, popularData, recentData, seriesData] = await Promise.all([
+      featuredVolumesRes.json(),
+      featuredIssuesRes.json(),
+      popularRes.json(),
+      recentRes.json(),
+      seriesRes.json()
+    ]);
+
+    // merge featured volumes and issues into one array
+    const featured = [...(featuredVolumesData.results || []), ...(featuredIssuesData.results || [])];
+
+    // filter results to remove unsafe publishers
+    const filterSafe = (results) =>
+        results
+            .filter(item => !blockedPublisherIds.includes(item.publisher?.id))
+            .slice(0, 10);
+    
+    res.json({
+      featured,
+      popular: filterSafe(popularData.results || []),
+      recent: filterSafe(recentData.results || []),
+      series: filterSafe(seriesData.results || [])
+    });
+
+    // used to find blacklist - google the publisher results
+    console.log('All publishers in results:', 
+    popularData.results
+        .map(r => ({ id: r.publisher?.id, name: r.publisher?.name }))
+        .filter((v, i, a) => a.findIndex(t => t.id === v.id) === i) // unique only
+    );
+
+  } catch(err){
+    console.error('Discover failed:', err);
+    res.status(500).json({ error: 'Failed to fetch discover data' });
+  }
 })

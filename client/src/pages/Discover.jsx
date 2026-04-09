@@ -40,7 +40,7 @@ function Discover(){
             <div className="discover-container">
                 <section className="discover-section">
                     <h2>Featured</h2>
-                    <div className="discover-row">
+                    <div className="discover-row row">
                         {featured.map((comic, i) => (
                             <ComicCard 
                                 key={i}
@@ -53,7 +53,7 @@ function Discover(){
 
                 <section className="discover-section">
                     <h2>Popular</h2>
-                    <div className="discover-row">
+                    <div className="discover-row row">
                         {popular.map((comic, i) => (
                             <ComicCard 
                                 key={i}
@@ -66,7 +66,7 @@ function Discover(){
 
                 <section className="discover-section">
                     <h2>Recent</h2>
-                    <div className="discover-row">
+                    <div className="discover-row row">
                         {recent.map((comic, i) => (
                             <ComicCard 
                                 key={i}
@@ -79,7 +79,7 @@ function Discover(){
 
                 <section className="discover-section">
                     <h2>Series</h2>
-                    <div className="discover-row">
+                    <div className="discover-row row">
                         {series.map((comic, i) => (
                             <ComicCard 
                                 key={i}
