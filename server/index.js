@@ -69,7 +69,8 @@ app.get('/api/discover', async (req, res) => {
   // the situation and asked what I should do to fix it - claude recommended i use a blacklist of publishers that return inappropriate content
   // claude provided a list - https://claude.ai/new
 
-  const blockedPublisherIds = [7768, 4727];
+  // inappropriate or old publishers - i logged all returned publishers and then googled them
+  const blockedPublisherIds = [7768, 4727, 5, 8, 4, 22, 32, 4983, 57, 89, 37, 45, 2043, 2781, 178, 1977, 7768, 4727, 11688, 11685];
 
   try{
     // fire all API requests at the same time
@@ -99,10 +100,10 @@ app.get('/api/discover', async (req, res) => {
     const featured = [...(featuredVolumesData.results || []), ...(featuredIssuesData.results || [])];
 
     // filter results to remove unsafe publishers
-    const filterSafe = (results) =>
-        results
-            .filter(item => !blockedPublisherIds.includes(item.publisher?.id))
-            .slice(0, 10);
+    // const filterSafe = (results) =>
+    //     results
+    //         .filter(item => !blockedPublisherIds.includes(item.publisher?.id))
+    //         .slice(0, 10);
     
     res.json({
       featured,
@@ -113,7 +114,7 @@ app.get('/api/discover', async (req, res) => {
 
     // used to find blacklist - google the publisher results
     console.log('All publishers in results:', 
-    popularData.results
+    recentData.results
         .map(r => ({ id: r.publisher?.id, name: r.publisher?.name }))
         .filter((v, i, a) => a.findIndex(t => t.id === v.id) === i) // unique only
     );
