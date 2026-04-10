@@ -80,7 +80,7 @@ app.get('/api/discover', async (req, res) => {
       // featured issues - fetches collected issues by their IDs
       fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&filter=id:${featuredIssueIds.join('|')}`),
       // popular volumes - most added to user lists
-      fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&sort=count_of_user_lists:desc&limit=50`),
+      fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&sort=count_of_user_lists:desc&limit=50`),
       // recent issues - cover date
       fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&sort=cover_date:desc&limit=100`),
       // recommended series - long running volumes 
@@ -103,6 +103,7 @@ app.get('/api/discover', async (req, res) => {
     const filterSafe = (results) =>
         results
             .filter(item => !blockedPublisherIds.includes(item.publisher?.id))
+            .filter(item => item.name)
             .slice(0, 10);
 
     
@@ -111,13 +112,6 @@ app.get('/api/discover', async (req, res) => {
         results
             .filter(item => !blockedPublisherIds.includes(item.volume?.publisher?.id))
             .filter(item => item.name)
-            // .filter(item => {
-            //     const coverDate = new Date(item.cover_date);
-            //     const today = new Date();
-            //     const twoYearsAgo = new Date();
-            //     twoYearsAgo.setFullYear(today.getFullYear() - 2);
-            //     return coverDate > twoYearsAgo && coverDate <= today; // in the past but not further back than 2 years
-            // })
             .slice(0, 10);
 
     res.json({
