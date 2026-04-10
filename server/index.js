@@ -81,8 +81,8 @@ app.get('/api/discover', async (req, res) => {
       fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&filter=id:${featuredIssueIds.join('|')}`),
       // popular volumes - most added to user lists
       fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&sort=count_of_user_lists:desc&limit=100`),
-      // recent volumes - newly added
-      fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&sort=date_added:desc&limit=100`),
+      // recent issues - cover date
+      fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&sort=cover_date:desc&limit=100`),
       // popular series - volumes with most reviews
       fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&sort=number_of_user_reviews:desc&limit=100`)
     ]);
@@ -100,24 +100,40 @@ app.get('/api/discover', async (req, res) => {
     const featured = [...(featuredVolumesData.results || []), ...(featuredIssuesData.results || [])];
 
     // filter results to remove unsafe publishers
-    // const filterSafe = (results) =>
-    //     results
-    //         .filter(item => !blockedPublisherIds.includes(item.publisher?.id))
-    //         .slice(0, 10);
+    const filterSafe = (results) =>
+        results
+            .filter(item => !blockedPublisherIds.includes(item.publisher?.id))
+            .slice(0, 10);
+
     
+    // for recent issues - filters by cover date and publisher
+    const filterRecentIssues = (results) =>
+        results
+            // .filter(item => !blockedPublisherIds.includes(item.volume?.publisher?.id))
+            .filter(item => item.name)
+            .filter(item => {
+                const coverDate = new Date(item.cover_date);
+                const today = new Date();
+                const twoYearsAgo = new Date();
+                twoYearsAgo.setFullYear(today.getFullYear() - 2);
+                return coverDate > twoYearsAgo && coverDate <= today; // in the past but not further back than 2 years
+            })
+            .slice(0, 10);
+
     res.json({
       featured,
       popular: filterSafe(popularData.results || []),
-      recent: filterSafe(recentData.results || []),
+      recent: filterRecentIssues(recentData.results || []),
       series: filterSafe(seriesData.results || [])
     });
+    
 
     // used to find blacklist - google the publisher results
-    console.log('All publishers in results:', 
-    recentData.results
-        .map(r => ({ id: r.publisher?.id, name: r.publisher?.name }))
-        .filter((v, i, a) => a.findIndex(t => t.id === v.id) === i) // unique only
-    );
+    // console.log('All publishers in results:', 
+    // recentData.results
+    //     .map(r => ({ id: r.publisher?.id, name: r.publisher?.name }))
+    //     .filter((v, i, a) => a.findIndex(t => t.id === v.id) === i) // unique only
+    // );
 
   } catch(err){
     console.error('Discover failed:', err);
