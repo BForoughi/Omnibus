@@ -80,11 +80,11 @@ app.get('/api/discover', async (req, res) => {
       // featured issues - fetches collected issues by their IDs
       fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&filter=id:${featuredIssueIds.join('|')}`),
       // popular volumes - most added to user lists
-      fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&sort=count_of_user_lists:desc&limit=100`),
+      fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&sort=count_of_user_lists:desc&limit=50`),
       // recent issues - cover date
       fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&sort=cover_date:desc&limit=100`),
-      // popular series - volumes with most reviews
-      fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&sort=number_of_user_reviews:desc&limit=100`)
+      // recommended series - long running volumes 
+      fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&sort=count_of_issues:desc&limit=100`)
     ]);
 
     // parse all responses as JSON at the same time
@@ -109,15 +109,15 @@ app.get('/api/discover', async (req, res) => {
     // for recent issues - filters by cover date and publisher
     const filterRecentIssues = (results) =>
         results
-            // .filter(item => !blockedPublisherIds.includes(item.volume?.publisher?.id))
+            .filter(item => !blockedPublisherIds.includes(item.volume?.publisher?.id))
             .filter(item => item.name)
-            .filter(item => {
-                const coverDate = new Date(item.cover_date);
-                const today = new Date();
-                const twoYearsAgo = new Date();
-                twoYearsAgo.setFullYear(today.getFullYear() - 2);
-                return coverDate > twoYearsAgo && coverDate <= today; // in the past but not further back than 2 years
-            })
+            // .filter(item => {
+            //     const coverDate = new Date(item.cover_date);
+            //     const today = new Date();
+            //     const twoYearsAgo = new Date();
+            //     twoYearsAgo.setFullYear(today.getFullYear() - 2);
+            //     return coverDate > twoYearsAgo && coverDate <= today; // in the past but not further back than 2 years
+            // })
             .slice(0, 10);
 
     res.json({

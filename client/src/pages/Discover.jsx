@@ -72,6 +72,7 @@ function Discover(){
                                 key={i}
                                 image={comic.image?.medium_url}
                                 name={comic.name}
+                                // volume={comic.volume}
                             />
                         ))}
                     </div>

@@ -1,6 +1,6 @@
 import '../stylesheets/DisplayingComics.css'
 
-function ComicCard({ image, name }){
+function ComicCard({ image, name, volume }){
     return(
         <div className="comic-card col-3">
             <img src={image} alt="name" className="comic-card_img" />
