@@ -65,6 +65,20 @@ app.get('/api/discover', async (req, res) => {
   const featuredVolumeIds = [88566, 39997];
   const featuredIssueIds = [1074455, 265714];
 
+  // comic vine api really doesn't like you trying to filter the results to fit what you want to again having to hardcode some ids use for series reccomendations
+  const recommendedSeriesIds = [
+    39340,  // Invincible whole series
+    148290,  // 2016 Nightwing
+    18033, // The Boys
+    9624, // Frank Miller Daredevil
+    112965, // 2018 punisher
+    3782, // Captain Atom
+    122626, // Legion of Super-Heroes
+    5989, // Transmetropolitan
+    50564, // Walking dead
+    110413 // 100 Bullets
+];
+
   // when I first returned the most recent comics, comic vine api returned a lot of hentai(manga pornography) - being that hentai is highly inappropriate I explained to claude  
   // the situation and asked what I should do to fix it - claude recommended i use a blacklist of publishers that return inappropriate content
   // claude provided a list - https://claude.ai/new
@@ -84,7 +98,7 @@ app.get('/api/discover', async (req, res) => {
       // recent issues - cover date
       fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&sort=cover_date:desc&limit=100`),
       // recommended series - long running volumes 
-      fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&sort=count_of_issues:desc&limit=100`)
+      fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&filter=id:${recommendedSeriesIds.join('|')}`)
     ]);
 
     // parse all responses as JSON at the same time
@@ -105,7 +119,6 @@ app.get('/api/discover', async (req, res) => {
             .filter(item => !blockedPublisherIds.includes(item.publisher?.id))
             .filter(item => item.name)
             .slice(0, 10);
-
     
     // for recent issues - filters by cover date and publisher
     const filterRecentIssues = (results) =>
@@ -118,7 +131,7 @@ app.get('/api/discover', async (req, res) => {
       featured,
       popular: filterSafe(popularData.results || []),
       recent: filterRecentIssues(recentData.results || []),
-      series: filterSafe(seriesData.results || [])
+      series: seriesData.results || []
     });
     
 
