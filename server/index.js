@@ -61,9 +61,7 @@ app.get('/api/search', async (req, res) => {
 // Displaying comics on the discover page router
 app.get('/api/discover', async (req, res) => {
   // this is for the featured section - my personal favourites - id's are taken from comic vine
-  // they're split because of comic vines inconsictent categorisation
-  const featuredVolumeIds = [88566, 39997];
-  const featuredIssueIds = [1074455, 265714];
+  const featuredIssueIds = [1074455, 265714, 506175, 517815, 269827];
 
   // comic vine api really doesn't like you trying to filter the results to fit what you want to again having to hardcode some ids use for series reccomendations
   const recommendedSeriesIds = [
@@ -88,12 +86,10 @@ app.get('/api/discover', async (req, res) => {
 
   try{
     // fire all API requests at the same time
-    const [featuredVolumesRes, featuredIssuesRes, popularRes, recentRes, seriesRes] = await Promise.all([
-      // featured volumes - fetches volumes by their IDs
-      fetch(`https://comicvine.gamespot.com/api/volumes/?api_key=${KEY}&format=json&filter=id:${featuredVolumeIds.join('|')}`),
+    const [featuredIssuesRes, popularRes, recentRes, seriesRes] = await Promise.all([
       // featured issues - fetches collected issues by their IDs
       fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&filter=id:${featuredIssueIds.join('|')}`),
-      // popular volumes - most added to user lists
+      // popular issues - most added to user lists
       fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&sort=count_of_user_lists:desc&limit=50`),
       // recent issues - cover date
       fetch(`https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&sort=cover_date:desc&limit=100`),
@@ -102,16 +98,12 @@ app.get('/api/discover', async (req, res) => {
     ]);
 
     // parse all responses as JSON at the same time
-    const [featuredVolumesData, featuredIssuesData, popularData, recentData, seriesData] = await Promise.all([
-      featuredVolumesRes.json(),
+    const [featuredIssuesData, popularData, recentData, seriesData] = await Promise.all([
       featuredIssuesRes.json(),
       popularRes.json(),
       recentRes.json(),
       seriesRes.json()
     ]);
-
-    // merge featured volumes and issues into one array
-    const featured = [...(featuredVolumesData.results || []), ...(featuredIssuesData.results || [])];
 
     // filter results to remove unsafe publishers
     const filterSafe = (results) =>
@@ -128,7 +120,7 @@ app.get('/api/discover', async (req, res) => {
             .slice(0, 10);
 
     res.json({
-      featured,
+      featured: featuredIssuesData.results || [],
       popular: filterSafe(popularData.results || []),
       recent: filterRecentIssues(recentData.results || []),
       series: seriesData.results || []

@@ -2,7 +2,7 @@ import AppNavbar from "../components/Navbar";
 import Banner from "../components/Banner";
 import landingPageComics from '../assets/landingpageComics.png';
 import ComicCard from "../components/ComicCard";
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 function Discover(){
     const [featured, setFeatured] = useState([]);
@@ -28,6 +28,21 @@ function Discover(){
         fetchDiscover();
     }, [])
 
+    // for the carousel
+    const scrollRef = useRef(null);
+    
+    const scrollLeft = () => {
+        const card = scrollRef.current.querySelector('.comic-card');
+        const cardWidth = card.offsetWidth + 17;
+        scrollRef.current.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+    }
+
+    const scrollRight = () => {
+        const card = scrollRef.current.querySelector('.comic-card');
+        const cardWidth = card.offsetWidth + 17;
+        scrollRef.current.scrollBy({ left: cardWidth, behavior: 'smooth' });
+    };
+
     return(
         <>
             <AppNavbar/>
@@ -39,25 +54,58 @@ function Discover(){
             
             <div className="discover-container">
                 <section className="discover-section">
-                    <h2>Featured</h2>
-                    <div className="discover-row row">
+                    <div className="discover-header_container">
+                        <h2 className="discover-header">Featured</h2>
+                    </div>
+                    <div className="discover-row featured-row">
                         {featured.map((comic, i) => (
                             <ComicCard 
                                 key={i}
                                 image={comic.image?.medium_url}
                                 name={comic.name}
+                                volume={comic.volume?.name}
                             />
                         ))}
                     </div>
                 </section>
 
                 <section className="discover-section">
-                    <h2>Popular</h2>
+                    <div className="discover-header_container">
+                        <h2 className="discover-header">Recent</h2>
+                    </div>
+
+                    <div className="carousel-wrapper">
+                        <button className='carousel-btn carousel-btn--left' onClick={scrollLeft}>
+                            &#8249;
+                        </button>
+
+                        <div className="discover-row carousel-track" ref={scrollRef}>
+                            {recent.map((comic, i) => (
+                                <ComicCard 
+                                    key={i}
+                                    image={comic.image?.medium_url}
+                                    volume={comic.volume?.name}
+                                    name={comic.name}
+                                />
+                            ))}
+                        </div>
+
+                        <button className='carousel-btn carousel-btn--right' onClick={scrollRight}>
+                            &#8250;
+                        </button>
+                    </div>
+                </section>
+
+                <section className="discover-section">
+                    <div className="discover-header_container">
+                        <h2 className="discover-header">Popular</h2>
+                    </div>
                     <div className="discover-row row">
                         {popular.map((comic, i) => (
                             <ComicCard 
                                 key={i}
                                 image={comic.image?.medium_url}
+                                volume={comic.volume?.name}
                                 name={comic.name}
                             />
                         ))}
@@ -65,21 +113,9 @@ function Discover(){
                 </section>
 
                 <section className="discover-section">
-                    <h2>Recent</h2>
-                    <div className="discover-row row">
-                        {recent.map((comic, i) => (
-                            <ComicCard 
-                                key={i}
-                                image={comic.image?.medium_url}
-                                name={comic.name}
-                                // volume={comic.volume}
-                            />
-                        ))}
+                    <div className="discover-header_container">
+                        <h2 className="discover-header">Series</h2>
                     </div>
-                </section>
-
-                <section className="discover-section">
-                    <h2>Series</h2>
                     <div className="discover-row row">
                         {series.map((comic, i) => (
                             <ComicCard 

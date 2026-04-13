@@ -1,8 +1,9 @@
 .comic-card {
     display: flex;
     flex-direction: column;
-    width: 245px;
+    width: 300px;
     cursor: pointer;
+    gap: 2px;
 }
 
 .comic-card_img {
@@ -10,10 +11,63 @@
     aspect-ratio: 2/3;    
     object-fit: cover;
     border-radius: 4px;
+    border: 1px solid #8B8B8B42;
 }
 
 .comic-card_name {
     font-family: 'Roboto Mono', monospace;
     font-size: 1rem;
     margin-top: 6px;
+}
+
+.discover-row{
+    display: flex;
+    gap: 17px;
+}
+.featured-row{
+    justify-content: center;
+}
+
+.discover-header_container{
+    margin-top: 3vw;
+    margin-bottom: 3vw;
+}
+
+.discover-header{
+    text-align: center;
+    margin-top: 2vw;
+    margin-bottom: 1vw;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding-bottom: 1.2vw;
+    padding-top: 1.2vw;
+    font-family: 'roboto-mono', monospace;
+    font-weight: 300;
+    font-size: 2rem;
+    width: 86%;
+    margin: 0 auto;
+}
+
+/* carousel */
+.carousel-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    position: relative;
+}
+
+.carousel-btn {
+    background: none;
+    border: none;
+    font-size: 3rem;
+    cursor: pointer;
+    padding: 0 8px;
+    color: black;
+}
+
+.carousel-track{
+    overflow: hidden;  /* hides comics outside the visible area */
+    scroll-snap-type: x mandatory;
+    width: calc(5 * 300px + 4 * 17px);  /* 5 cards + 4 gaps */
 }
