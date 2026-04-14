@@ -1,5 +1,6 @@
 import { useState } from "react";
 import '../stylesheets/Navbar.css'
+import { useNavigate } from "react-router-dom";
 
 function NavSearchBar(){
     const [searchOpen, setSearchOpen] = useState(false);
@@ -25,6 +26,17 @@ function NavSearchBar(){
         }
     };
 
+    // function that allows the user to go to a full page of search results
+    const navigate = useNavigate();
+    const handleSearchEntered = (e) =>{
+        if(e.key === 'Enter' && query.length > 2){
+            navigate(`/SearchPage?q=${query}`);
+            setSearchOpen(false);
+            setQuery("")
+            setResults([])
+        }
+    }
+
     return (
         <div className='app-nav_search'>
             {/* if searchOpen is true aka it has been clicked (look at the onClick) */}
@@ -39,6 +51,7 @@ function NavSearchBar(){
                     // used for when the user clicks away
                     onBlur={() => { setSearchOpen(false); setQuery(''); setResults([]); }}
                     className='app-nav_search-input'
+                    onKeyDown={handleSearchEntered}
                 />
             ) : (
                 <div className="app-nav_link search-container">

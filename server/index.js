@@ -17,12 +17,25 @@ app.use(cors({
 app.use(express.json());
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-// Example route
-// app.get('/api/hello', (req, res) => {
-//   res.json({ message: 'Hello from Express!' });
-// });
+
 
 // -------- API Routers --------
+
+  // when I first returned the most recent comics, comic vine api returned a lot of hentai(manga pornography) - being that hentai is highly inappropriate I explained to claude  
+  // the situation and asked what I should do to fix it - claude recommended i use a blacklist of publishers that return inappropriate content
+  // claude provided a list - https://claude.ai/new
+
+  // inappropriate or old publishers - i logged all returned publishers and then googled them
+  const blockedPublisherIds = [7768, 4727, 5, 8, 4, 22, 32, 4983, 57, 89, 37, 45, 2043, 2781, 178, 1977, 7768, 4727, 11688, 11685];
+
+  // filter results to remove unsafe publishers
+  const filterSafe = (results) =>
+    results
+      .filter(item => !blockedPublisherIds.includes(item.publisher?.id))
+      .filter(item => item.name)
+      .slice(0, 20);
+
+
 // Search route
 app.get('/api/search', async (req, res) => {
   const { query } = req.query; // receiving the "value" aka query from frontend in handleSearch function
@@ -44,11 +57,12 @@ app.get('/api/search', async (req, res) => {
     // ordering the return data - this is so important searches like publishers don't get lost
     const order = { publisher: 0, character: 1, volume: 2, issue: 3 };
 
+    const filteredPublishers = publishers.filter(p => !blockedPublisherIds.includes(p.id));
+
     // sorting the merged array by priority and then limiting the search results to 5
-    const combined = [...(searchData.results || []), ...publishers]
+    const combined = [...(searchData.results || []), ...filteredPublishers]
       .sort((a, b) => (order[a.resource_type] ?? 99) - (order[b.resource_type] ?? 99))
-      .slice(0, 5);
-    res.json({ results: combined });
+    res.json({ results: filterSafe(combined) });
   }catch (err){
     console.error("Search failed:", err);
     res.status(500).json({
@@ -77,13 +91,6 @@ app.get('/api/discover', async (req, res) => {
     110413 // 100 Bullets
 ];
 
-  // when I first returned the most recent comics, comic vine api returned a lot of hentai(manga pornography) - being that hentai is highly inappropriate I explained to claude  
-  // the situation and asked what I should do to fix it - claude recommended i use a blacklist of publishers that return inappropriate content
-  // claude provided a list - https://claude.ai/new
-
-  // inappropriate or old publishers - i logged all returned publishers and then googled them
-  const blockedPublisherIds = [7768, 4727, 5, 8, 4, 22, 32, 4983, 57, 89, 37, 45, 2043, 2781, 178, 1977, 7768, 4727, 11688, 11685];
-
   try{
     // fire all API requests at the same time
     const [featuredIssuesRes, popularRes, recentRes, seriesRes] = await Promise.all([
@@ -104,13 +111,6 @@ app.get('/api/discover', async (req, res) => {
       recentRes.json(),
       seriesRes.json()
     ]);
-
-    // filter results to remove unsafe publishers
-    const filterSafe = (results) =>
-        results
-            .filter(item => !blockedPublisherIds.includes(item.publisher?.id))
-            .filter(item => item.name)
-            .slice(0, 20);
     
     // for recent issues - filters by cover date and publisher
     const filterRecentIssues = (results) =>
