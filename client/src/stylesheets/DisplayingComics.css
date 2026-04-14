@@ -64,6 +64,11 @@
     cursor: pointer;
     padding: 0 8px;
     color: black;
+    visibility: visible;
+}
+.carousel-btn.hidden {
+    visibility: hidden;  /* hides but keeps space */
+    pointer-events: none;  /* prevents clicking hidden button */
 }
 
 .carousel-track{
