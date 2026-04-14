@@ -62,6 +62,16 @@ body {
   width: 50%;
 }
 
+/* laptop */
+@media (max-width: 1024px){
+  #landingPageComics{
+    width: 60%;
+  }
+  #landingcomics-container{
+    margin-top: 200px;
+  }
+}
+
 @media (max-width: 768px) {
   .banner-container {
     margin-top: 7vw;
@@ -80,4 +90,19 @@ body {
   .banner-inner h1 {
     letter-spacing: 11px;
   }
+
+  #landingPageComics{
+    width: 70%;
+  }
 }
+
+/* phone */
+@media (max-width: 480px){
+  #landingPageComics{
+    width: 85%;
+  }
+  #landingcomics-container{
+    margin-top: 90px;
+  }
+}
+

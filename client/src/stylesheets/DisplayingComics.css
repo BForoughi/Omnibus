@@ -1,7 +1,7 @@
 .comic-card {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 16vw;
     cursor: pointer;
     gap: 2px;
 }
@@ -76,5 +76,71 @@
 
 .carousel-track{
     overflow: hidden;  /* hides comics outside the visible area */
-    width: calc(5 * 300px + 4 * 17px);  /* 5 cards + 4 gaps */
+    width: calc(5 * 16vw + 4 * 17px);  /* 5 cards + 4 gaps */
+}
+
+/* tablet view */
+@media (max-width: 768px) {
+    /* featured - show all in 2 column grid */
+    .featured-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 17px;
+    }
+    .featured-wrapper{
+        display: flex;
+        justify-content: center;
+    }
+
+    /* carousel - show 2 cards at a time */
+    .discover-row {
+        width: calc(2 * 25vw + 1 * 17px);
+    }
+
+    .comic-card {
+        width: 25vw;
+        min-width: 120px;
+    }
+
+    .carousel-btn{
+        margin-bottom: 13vw;
+    }
+}
+
+/* phone view */
+@media (max-width: 480px) {
+    /* featured - show all in 2 column grid */
+    .featured-row {
+        flex-wrap: wrap;
+        flex-direction: row;
+        gap: 25px;
+    }
+
+    /* carousel - show 2 cards at a time */
+    .discover-row {
+        gap: 20px;
+        width: calc(2 * 30vw + 1 * 20px);
+    }
+
+    .comic-card {
+        width: 30vw;
+        /* min-width: 120px; */
+    }
+
+    .discover-header_container{
+        margin-bottom: 6vw;
+    }
+
+    .carousel-btn{
+        margin-bottom: 15vw;
+    }
+
+    .comic-card_name{
+        overflow-wrap: break-word;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;      /* number of lines before ... */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }

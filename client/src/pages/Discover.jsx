@@ -43,15 +43,17 @@ function Discover(){
                     <div className="discover-header_container">
                         <h2 className="discover-header">Featured</h2>
                     </div>
-                    <div className="discover-row featured-row">
-                        {featured.map((comic, i) => (
-                            <ComicCard 
-                                key={i}
-                                image={comic.image?.medium_url}
-                                name={comic.name}
-                                volume={comic.volume?.name}
-                            />
-                        ))}
+                    <div className="featured-wrapper">
+                        <div className="discover-row featured-row">
+                            {featured.map((comic, i) => (
+                                <ComicCard 
+                                    key={i}
+                                    image={comic.image?.medium_url}
+                                    name={comic.name}
+                                    volume={comic.volume?.name}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </section>
 

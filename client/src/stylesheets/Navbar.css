@@ -5,6 +5,10 @@
     width: 200px;
     align-items: flex-start !important;
     margin-left: 1vw;
+    /* laptop */
+    @media (max-width: 1024px){
+        width: 160px;
+    }
 }
 
 .app-nav_inner{
@@ -13,21 +17,21 @@
 }
 
 .app-nav_inner::before {
-  content: '';
-  position: absolute;
-  top: -10px; /* gap from top border */
-  left: 0;
-  right: 0;
-  border-top: 3px solid black;
+    content: '';
+    position: absolute;
+    top: -10px; /* gap from top border */
+    left: 0;
+    right: 0;
+    border-top: 3px solid black;
 }
 
 .app-nav_inner::after {
-  content: '';
-  position: absolute;
-  top: 275px; /* gap from bottom border */
-  left: 0;
-  right: 0;
-  border-bottom: 3px solid black;
+    content: '';
+    position: absolute;
+    top: 275px; /* gap from bottom border */
+    left: 0;
+    right: 0;
+    border-bottom: 3px solid black;
 }
 
 .app-nav_links{
