@@ -6,6 +6,7 @@ export default function ComicCarousel ({ comics }){
     const scrollRef = useRef(null);
     const [atStart, setAtStart] = useState(true);
     const [atEnd, setAtEnd] = useState(false);
+    const [isScrolling, setIsScrolling] = useState(false);
 
     const handleScroll = () => {
         const scrollState = scrollRef.current;
@@ -16,6 +17,10 @@ export default function ComicCarousel ({ comics }){
     // these scrolls work by measuring the width of a card and then added the width of the gap
     // to know exactly how much to scroll over
     const scrollLeft = () => {
+        // so the user cant spam click and mess up the measuring of the carousel
+        if (isScrolling) return;  // ignore clicks while scrolling
+        setIsScrolling(true);
+
         const card = scrollRef.current.querySelector('.comic-card');
         const cardWidth = card.offsetWidth + 17; // card + gap
         scrollRef.current.scrollBy({ left: -cardWidth, behavior: 'smooth' });
@@ -24,9 +29,14 @@ export default function ComicCarousel ({ comics }){
         const scrollState = scrollRef.current;
         setAtStart(scrollState.scrollLeft - cardWidth <= 0);
         setAtEnd(false);
+
+        setTimeout(() => setIsScrolling(false), 300);  // matched to the scroll animation duration
     }
 
     const scrollRight = () => {
+        if (isScrolling) return; 
+        setIsScrolling(true);
+
         const card = scrollRef.current.querySelector('.comic-card');
         const cardWidth = card.offsetWidth + 17;
         scrollRef.current.scrollBy({ left: cardWidth, behavior: 'smooth' });
@@ -35,6 +45,8 @@ export default function ComicCarousel ({ comics }){
         const scrollState = scrollRef.current;
         setAtStart(false);
         setAtEnd(scrollState.scrollLeft + cardWidth + scrollState.offsetWidth >= scrollState.scrollWidth - 1);
+
+        setTimeout(() => setIsScrolling(false), 300);
     };
 
     return(
