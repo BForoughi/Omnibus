@@ -58,12 +58,15 @@
 }
 
 .carousel-btn {
-    background: none;
+    background-color: #E8503A;
+    color: #fff;
     border: none;
+    border-radius: 30px;
     font-size: 3rem;
     cursor: pointer;
-    padding: 0 8px;
-    color: black;
+    padding-top: 0px;
+    padding-bottom: 13px;
+    margin-bottom: 3vw;
     visibility: visible;
 }
 .carousel-btn.hidden {

@@ -110,14 +110,14 @@ app.get('/api/discover', async (req, res) => {
         results
             .filter(item => !blockedPublisherIds.includes(item.publisher?.id))
             .filter(item => item.name)
-            .slice(0, 10);
+            .slice(0, 20);
     
     // for recent issues - filters by cover date and publisher
     const filterRecentIssues = (results) =>
         results
             .filter(item => !blockedPublisherIds.includes(item.volume?.publisher?.id))
             .filter(item => item.name)
-            .slice(0, 10);
+            .slice(0, 20);
 
     res.json({
       featured: featuredIssuesData.results || [],
