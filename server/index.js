@@ -43,7 +43,7 @@ app.get('/api/search', async (req, res) => {
   try{
     // querying the comic vine api to allow the user to search
     const [searchRes, publisherRes] = await Promise.all([
-      fetch(`https://comicvine.gamespot.com/api/search/?api_key=${KEY}&format=json&query=${query.toLowerCase()}&resources=character,issue,volume&limit=8`),
+      fetch(`https://comicvine.gamespot.com/api/search/?api_key=${KEY}&format=json&query=${query.toLowerCase()}&resources=character,issue,volume&limit=50`),
       fetch(`https://comicvine.gamespot.com/api/publishers/?api_key=${KEY}&format=json&filter=name:${query}&limit=2`)
     ]);
     const searchData = await searchRes.json();

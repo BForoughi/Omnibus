@@ -62,6 +62,29 @@ body {
   width: 50%;
 }
 
+#search-results_container{
+  display: flex;
+  gap: 10vw;
+}
+
+.search-results{
+  width: 70%;
+  padding: 0;
+  margin: 0;
+}
+
+.search-result {
+  display: flex;
+  /* align-items: center; */
+  gap: 10px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
 /* laptop */
 @media (max-width: 1024px){
   #landingPageComics{
