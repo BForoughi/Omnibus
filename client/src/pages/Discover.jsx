@@ -2,7 +2,8 @@ import AppNavbar from "../components/Navbar";
 import Banner from "../components/Banner";
 import landingPageComics from '../assets/landingpageComics.png';
 import ComicCard from "../components/ComicCard";
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
+import ComicCarousel from "../components/ComicCarousel";
 
 function Discover(){
     const [featured, setFeatured] = useState([]);
@@ -27,22 +28,7 @@ function Discover(){
 
         fetchDiscover();
     }, [])
-
-    // for the carousel
-    const scrollRef = useRef(null);
     
-    const scrollLeft = () => {
-        const card = scrollRef.current.querySelector('.comic-card');
-        const cardWidth = card.offsetWidth + 17;
-        scrollRef.current.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-    }
-
-    const scrollRight = () => {
-        const card = scrollRef.current.querySelector('.comic-card');
-        const cardWidth = card.offsetWidth + 17;
-        scrollRef.current.scrollBy({ left: cardWidth, behavior: 'smooth' });
-    };
-
     return(
         <>
             <AppNavbar/>
@@ -73,58 +59,22 @@ function Discover(){
                     <div className="discover-header_container">
                         <h2 className="discover-header">Recent</h2>
                     </div>
-
-                    <div className="carousel-wrapper">
-                        <button className='carousel-btn carousel-btn--left' onClick={scrollLeft}>
-                            &#8249;
-                        </button>
-
-                        <div className="discover-row carousel-track" ref={scrollRef}>
-                            {recent.map((comic, i) => (
-                                <ComicCard 
-                                    key={i}
-                                    image={comic.image?.medium_url}
-                                    volume={comic.volume?.name}
-                                    name={comic.name}
-                                />
-                            ))}
-                        </div>
-
-                        <button className='carousel-btn carousel-btn--right' onClick={scrollRight}>
-                            &#8250;
-                        </button>
-                    </div>
+                    <ComicCarousel comics={recent}/>
+                    
                 </section>
 
                 <section className="discover-section">
                     <div className="discover-header_container">
                         <h2 className="discover-header">Popular</h2>
                     </div>
-                    <div className="discover-row row">
-                        {popular.map((comic, i) => (
-                            <ComicCard 
-                                key={i}
-                                image={comic.image?.medium_url}
-                                volume={comic.volume?.name}
-                                name={comic.name}
-                            />
-                        ))}
-                    </div>
+                    <ComicCarousel comics={popular}/>
                 </section>
 
                 <section className="discover-section">
                     <div className="discover-header_container">
                         <h2 className="discover-header">Series</h2>
                     </div>
-                    <div className="discover-row row">
-                        {series.map((comic, i) => (
-                            <ComicCard 
-                                key={i}
-                                image={comic.image?.medium_url}
-                                name={comic.name}
-                            />
-                        ))}
-                    </div>
+                    <ComicCarousel comics={series}/>
                 </section>
             </div>
         </>

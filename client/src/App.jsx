@@ -1,5 +1,4 @@
 import '../src/stylesheets/App.css';
-import { useState, useEffect } from 'react';
 import Discover from "./pages/Discover";
 import Library from "./pages/Library";
 import Register from "./pages/Register";

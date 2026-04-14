@@ -68,6 +68,5 @@
 
 .carousel-track{
     overflow: hidden;  /* hides comics outside the visible area */
-    scroll-snap-type: x mandatory;
     width: calc(5 * 300px + 4 * 17px);  /* 5 cards + 4 gaps */
 }
