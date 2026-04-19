@@ -85,6 +85,25 @@ body {
   font-size: 1.1rem;
 }
 
+.search-results_searchbar{
+  width: 100%;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  border: 1px solid #2e2e2e;
+  padding: 5px 10px;
+  font-size: 1.1rem;
+  font-weight: 400;
+  background-color: #FDFFF8;
+  /* laptop */
+  @media (max-width: 1024px){
+    width: 70%;
+  }
+}
+
+#search-results_inner{
+  margin-top: 10px;
+}
+
 /* laptop */
 @media (max-width: 1024px){
   #landingPageComics{
@@ -126,6 +145,20 @@ body {
   }
   #landingcomics-container{
     margin-top: 90px;
+  }
+
+  .search-results{
+    width: 90%;
+  }
+
+  #search-results_inner{
+    padding-left: 10px;
+    position: fixed;
+    top: 65px;
+  }
+
+  .search-results_searchbar{
+    width: 95%;
   }
 }
 
