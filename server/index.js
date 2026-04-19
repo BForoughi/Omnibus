@@ -57,7 +57,7 @@ app.get('/api/search', async (req, res) => {
     // navbar dropdown order - ordering the return data - this is so important searches like publishers don't get lost
     const navOrder = { publisher: 0, character: 1, volume: 2, issue: 3 };
     // search results page order - comics first
-    const searchOrder = { publisher: 0, volume: 1, issue: 2, character: 3 };
+    const searchOrder = { publisher: 0, issue: 1, volume: 2, character: 3 };
     const order = type === 'full' ? searchOrder : navOrder;
     
     const filteredPublishers = publishers.filter(p => !blockedPublisherIds.includes(p.id));
