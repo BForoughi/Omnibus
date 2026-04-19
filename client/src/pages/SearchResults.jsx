@@ -14,7 +14,7 @@ function SearchResultsPage (){
 
         const fetchData = async () => {
             try{
-                const response = await fetch(`/api/search?query=${query}`);
+                const response = await fetch(`/api/search?query=${query}}&type=full`);
                 const data = await response.json();
                 setResults((data.results || []).slice(0, 15));
             } catch(err){
@@ -36,7 +36,7 @@ function SearchResultsPage (){
                                 alt={item.name}
                                 className='search-result-img'
                             />
-                            <span className='result-name'> {item.name} - </span>
+                            <span className='result-name'> {item.name}, {item.volume?.name} - </span>
                             <span className='result-type'>{item.resource_type}</span>
                         </li>
                     ))}

@@ -15,7 +15,7 @@ function NavSearchBar(){
         // search after 3 characters
         if (value.length > 2) {
             try{
-                const response = await fetch(`/api/search?query=${value}`); // passing "value" through the search route
+                const response = await fetch(`/api/search?query=${value}&type=nav`); // passing "value" through the search route
                 const data = await response.json(); // receiving data
                 setResults((data.results || []).slice(0, 5));
             } catch (err){
@@ -72,7 +72,7 @@ function NavSearchBar(){
                                 alt={item.name}
                                 className='app-nav_search-result-img'
                             />
-                            <span className='result-name'> {item.name} - </span>
+                            <span className='result-name'> {item.name}, {item.volume?.name} - </span>
                             <span className='result-type'>{item.resource_type}</span>
                         </li>
                     ))}

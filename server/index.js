@@ -38,7 +38,7 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // Search route
 app.get('/api/search', async (req, res) => {
-  const { query } = req.query; // receiving the "value" aka query from frontend in handleSearch function
+  const { query, type } = req.query; // receiving the "value" aka query from frontend in handleSearch function
 
   try{
     // querying the comic vine api to allow the user to search
@@ -54,9 +54,12 @@ app.get('/api/search', async (req, res) => {
       resource_type: 'publisher'
     }));
 
-    // ordering the return data - this is so important searches like publishers don't get lost
-    const order = { publisher: 0, character: 1, volume: 2, issue: 3 };
-
+    // navbar dropdown order - ordering the return data - this is so important searches like publishers don't get lost
+    const navOrder = { publisher: 0, character: 1, volume: 2, issue: 3 };
+    // search results page order - comics first
+    const searchOrder = { publisher: 0, volume: 1, issue: 2, character: 3 };
+    const order = type === 'full' ? searchOrder : navOrder;
+    
     const filteredPublishers = publishers.filter(p => !blockedPublisherIds.includes(p.id));
 
     // sorting the merged array by priority and then limiting the search results to 5
