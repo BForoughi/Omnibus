@@ -87,7 +87,6 @@ body {
 
 .search-results_searchbar{
   width: 100%;
-  margin-bottom: 30px;
   border-radius: 10px;
   border: 1px solid #2e2e2e;
   padding: 5px 10px;
@@ -101,7 +100,22 @@ body {
 }
 
 #search-results_inner{
-  margin-top: 10px;
+  margin-top: 5px;
+}
+
+/* desktop */
+@media (min-width: 1025px) {
+  /* grid layout */
+  .search-results {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);  /* 2 columns */
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .search-results_searchbar{
+    width: 70%;
+  }
 }
 
 /* laptop */
@@ -111,6 +125,10 @@ body {
   }
   #landingcomics-container{
     margin-top: 200px;
+  }
+
+  .search-results_searchbar{
+    margin-bottom: 10px;
   }
 }
 
