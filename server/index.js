@@ -26,7 +26,7 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   // claude provided a list - https://claude.ai/new
 
   // inappropriate or old publishers - i logged all returned publishers and then googled them
-  const blockedPublisherIds = [7768, 4727, 5, 8, 4, 22, 32, 4983, 57, 89, 37, 45, 2043, 2781, 178, 1977, 7768, 4727, 11688, 11685];
+  const blockedPublisherIds = [7768, 4727, 5, 8, 4, 22, 32, 4983, 57, 89, 37, 45, 2043, 2781, 178, 1977, 7768, 4727, 11688, 11685, 3602];
 
   // filter results to remove unsafe publishers
   const filterSafe = (results) =>

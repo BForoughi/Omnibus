@@ -4,6 +4,7 @@ import landingPageComics from '../assets/landingpageComics.png';
 import ComicCard from "../components/ComicCard";
 import { useState, useEffect } from 'react';
 import ComicCarousel from "../components/ComicCarousel";
+import ComicCardSkeleton from "../components/CardSkeleton";
 
 function Discover(){
     const [featured, setFeatured] = useState([]);
@@ -28,7 +29,51 @@ function Discover(){
 
         fetchDiscover();
     }, [])
-    
+
+    // loading data - taken from claude.ai
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchDiscover = async () => {
+            try {
+                const res = await fetch('/api/discover');
+                const data = await res.json();
+                setFeatured(data.featured);
+                setPopular(data.popular);
+                setRecent(data.recent);
+                setSeries(data.series);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);  // hides skeleton when done
+            }
+        };
+        fetchDiscover();
+    }, []);
+
+    // show skeletons while loading
+    if (loading) {
+        return (
+            <>
+                <AppNavbar />
+                <div className='discover'>
+                    <section className='discover-section'>
+                        <h2>Featured</h2>
+                        <div className='discover-row'>
+                            {[...Array(4)].map((_, i) => <ComicCardSkeleton key={i} />)}
+                        </div>
+                    </section>
+                    <section className='discover-section'>
+                        <h2>Popular</h2>
+                        <div className='discover-row'>
+                            {[...Array(5)].map((_, i) => <ComicCardSkeleton key={i} />)}
+                        </div>
+                    </section>
+                </div>
+            </>
+        );
+    }
+
     return(
         <>
             <AppNavbar/>

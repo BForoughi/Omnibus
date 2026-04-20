@@ -103,6 +103,34 @@ body {
   margin-top: 5px;
 }
 
+/* loading data */
+.skeleton-img {
+  width: 100%;
+  aspect-ratio: 2/3;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-text {
+  height: 12px;
+  border-radius: 4px;
+  margin-top: 6px;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-text--short {
+  width: 60%;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 /* desktop */
 @media (min-width: 1025px) {
   /* grid layout */
