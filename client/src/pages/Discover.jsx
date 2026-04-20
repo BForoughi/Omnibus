@@ -5,8 +5,11 @@ import ComicCard from "../components/ComicCard";
 import { useState, useEffect } from 'react';
 import ComicCarousel from "../components/ComicCarousel";
 import ComicCardSkeleton from "../components/CardSkeleton";
+import { useNavigate } from "react-router-dom";
 
 function Discover(){
+    const navigate = useNavigate();
+
     const [featured, setFeatured] = useState([]);
     const [popular, setPopular] = useState([]);
     const [recent, setRecent] = useState([]);
@@ -96,6 +99,7 @@ function Discover(){
                                     image={comic.image?.medium_url}
                                     name={comic.name}
                                     volume={comic.volume?.name}
+                                    // onClick={() => navigate(`/comic/${item.id}?type=${item.resource_type}`)}
                                 />
                             ))}
                         </div>

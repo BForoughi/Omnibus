@@ -166,7 +166,7 @@ app.get("/api/discover", async (req, res) => {
 });
 
 // displaying resource type information
-app.get("/api/comic/:id", async (req, res) => {
+app.get("/api/info/:id", async (req, res) => {
   const { id } = req.params;
   const { type } = req.query;
 

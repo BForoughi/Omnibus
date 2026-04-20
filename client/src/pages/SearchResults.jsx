@@ -50,7 +50,7 @@ function SearchResultsPage (){
                     />
                     <ul className='search-results'>
                         {results.map((item, i) => (
-                            <li key={i} className='search-result' onClick={() => navigate(`/comic/${item.id}?type=${item.resource_type}`)}>
+                            <li key={i} className='search-result' onClick={() => navigate(`/api/info/${item.id}?type=${item.resource_type}`)}>
                                 <img 
                                     src={item.image?.icon_url} 
                                     alt={item.name}
