@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AppNavbar from "../components/Navbar"
 import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 function SearchResultsPage (){
     const [results, setResults] = useState([]);
@@ -10,6 +10,8 @@ function SearchResultsPage (){
     const query = searchParams.get('q'); // reads ?q="user's search" from the URL
     
     const [inputValue, setInputValue] = useState(query || ''); // this is used to store the orginal search to allow for an edit search
+
+    const navigate = useNavigate();
 
     const handleSearch = (e) => {
         if (e.key === 'Enter' && e.target.value.length > 2) {
@@ -48,7 +50,7 @@ function SearchResultsPage (){
                     />
                     <ul className='search-results'>
                         {results.map((item, i) => (
-                            <li key={i} className='search-result'>
+                            <li key={i} className='search-result' onClick={() => navigate(`/comic/${item.id}?type=${item.resource_type}`)}>
                                 <img 
                                     src={item.image?.icon_url} 
                                     alt={item.name}
