@@ -1,6 +1,7 @@
 import ComicCard from "./ComicCard";
 import '../stylesheets/DisplayingComics.css'
 import { useRef, useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 
 export default function ComicCarousel ({ comics }){
     const scrollRef = useRef(null);
@@ -49,6 +50,8 @@ export default function ComicCarousel ({ comics }){
         setTimeout(() => setIsScrolling(false), 300);
     };
 
+    const navigate = useNavigate();
+    
     return(
         <div className="carousel-wrapper">
                 <button className={`carousel-btn carousel-btn--left ${atStart ? 'hidden' : ''}`} onClick={scrollLeft}>
@@ -57,12 +60,13 @@ export default function ComicCarousel ({ comics }){
 
             <div className="discover-row carousel-track" ref={scrollRef}>
                 {comics.map((comic, i) => (
-                    <ComicCard 
-                        key={i}
-                        image={comic.image?.medium_url}
-                        volume={comic.volume?.name}
-                        name={comic.name}
-                    />
+                    <Link key={i} to={`/info/${comic.id}?type=${comic.resource_type}`} style={{ textDecoration: 'none' }}>
+                        <ComicCard 
+                            image={comic.image?.medium_url}
+                            volume={comic.volume?.name}
+                            name={comic.name}
+                        />
+                    </Link>
                 ))}
             </div>
 

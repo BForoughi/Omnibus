@@ -137,6 +137,7 @@ app.get("/api/discover", async (req, res) => {
         seriesRes.json(),
       ]);
 
+
     // for recent issues - filters by cover date and publisher
     const filterRecentIssues = (results) =>
       results
@@ -146,11 +147,34 @@ app.get("/api/discover", async (req, res) => {
         .filter((item) => item.name)
         .slice(0, 20);
 
+
+    // tag featured issues with resource_type after parsing
+    const featured = (featuredIssuesData.results || []).map((i) => ({
+      ...i,
+      resource_type: "issue",
+    }));
+
+    const recent = filterRecentIssues(recentData.results || []).map(i => ({
+      ...i,
+      resource_type: 'issue'
+    }));
+
+    const popular = filterSafe(popularData.results || []).map(i => ({
+      ...i,
+      resource_type: 'issue'
+    }));
+
+    const series = (seriesData.results || []).map(v => ({
+      ...v,
+      resource_type: 'volume'
+    }));
+
+
     res.json({
-      featured: featuredIssuesData.results || [],
-      popular: filterSafe(popularData.results || []),
-      recent: filterRecentIssues(recentData.results || []),
-      series: seriesData.results || [],
+      featured,
+      popular,
+      recent,
+      series
     });
 
     // used to find blacklist - google the publisher results
@@ -170,25 +194,24 @@ app.get("/api/info/:id", async (req, res) => {
   const { id } = req.params;
   const { type } = req.query;
 
-  try{
-    let url = "";
+  try {
+    const endpoints = {
+      issue: `https://comicvine.gamespot.com/api/issue/4000-${id}/?api_key=${KEY}&format=json`,
+      volume: `https://comicvine.gamespot.com/api/volume/4050-${id}/?api_key=${KEY}&format=json`,
+      character: `https://comicvine.gamespot.com/api/character/4005-${id}/?api_key=${KEY}&format=json`,
+      publisher: `https://comicvine.gamespot.com/api/publisher/4010-${id}/?api_key=${KEY}&format=json`,
+    };
 
-    if(type === "issue"){
-      url = `https://comicvine.gamespot.com/api/issue/4000-${id}/?api_key=${KEY}&format=json`;
-    } else if (type === "volume") {
-      url = `https://comicvine.gamespot.com/api/volume/4050-${id}/?api_key=${KEY}&format=json`;
-    } else if (type === "character") {
-      url = `https://comicvine.gamespot.com/api/character/4005-${id}/?api_key=${KEY}&format=json`;
-    } else if (type === "publisher"){
-      url = `https://comicvine.gamespot.com/api/character/4010-${id}/?api_key=${KEY}&format=json`;
-    }
+    const url = endpoints[type];
+
+    if (!url) return res.status(400).json({ error: "Invalid type" });
 
     const response = await fetch(url);
     const data = await response.json();
 
-    res.json(data.results)
+    res.json(data.results);
   } catch (err) {
     console.error("fetch failed:", err);
     res.status(500).json({ error: "Failed to fetch resource" });
   }
-})
+});

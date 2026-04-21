@@ -5,7 +5,7 @@ import ComicCard from "../components/ComicCard";
 import { useState, useEffect } from 'react';
 import ComicCarousel from "../components/ComicCarousel";
 import ComicCardSkeleton from "../components/CardSkeleton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Discover(){
     const navigate = useNavigate();
@@ -20,7 +20,6 @@ function Discover(){
             try{
                 const res = await fetch('/api/discover');
                 const data = await res.json();
-
                 setFeatured(data.featured)
                 setPopular(data.popular)
                 setRecent(data.recent)
@@ -94,13 +93,14 @@ function Discover(){
                     <div className="featured-wrapper">
                         <div className="discover-row featured-row">
                             {featured.map((comic, i) => (
-                                <ComicCard 
-                                    key={i}
-                                    image={comic.image?.medium_url}
-                                    name={comic.name}
-                                    volume={comic.volume?.name}
-                                    // onClick={() => navigate(`/comic/${item.id}?type=${item.resource_type}`)}
-                                />
+                                <Link key={i} to={`/info/${comic.id}?type=${comic.resource_type}`} style={{ textDecoration: 'none' }}>
+                                    <ComicCard 
+                                        // key={i}
+                                        image={comic.image?.medium_url}
+                                        name={comic.name}
+                                        volume={comic.volume?.name}
+                                    />
+                                </Link>
                             ))}
                         </div>
                     </div>

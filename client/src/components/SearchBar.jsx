@@ -49,7 +49,13 @@ function NavSearchBar(){
                     value={query}
                     onChange={handleSearch}
                     // used for when the user clicks away
-                    onBlur={() => { setSearchOpen(false); setQuery(''); setResults([]); }}
+                    onBlur={() => {
+                        setTimeout(() => {
+                            setSearchOpen(false);
+                            setQuery('');
+                            setResults([]);
+                        }, 150); // small delay to allow onMouseDown to fire first
+                    }}
                     className='app-nav_search-input'
                     onKeyDown={handleSearchEntered}
                 />
@@ -66,7 +72,7 @@ function NavSearchBar(){
             {results.length > 0 && (
                 <ul className='app-nav_search-results'>
                     {results.map((item, i) => (
-                        <li key={i} className='app-nav_search-result'>
+                        <li key={i} className='app-nav_search-result' onMouseDown={() => navigate(`/info/${item.id}?type=${item.resource_type}`)}>
                             <img 
                                 src={item.image?.icon_url} 
                                 alt={item.name}

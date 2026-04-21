@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import AppNavbar from "../components/Navbar";
 import '../stylesheets/DisplayingComics.css'
 
-function InforationPage() {
+function InformationPage() {
     const { id } = useParams();
     const [searchParams] = useSearchParams();
     const type = searchParams.get("type");
@@ -24,7 +24,9 @@ function InforationPage() {
         fetchComic();
     }, [id, type]);
 
-    if (!comic) return <div>Loading...</div>;
+    
+
+    if (!resource) return <div>Loading...</div>;
 
     return(
         <div className="information-page_container">
@@ -38,4 +40,4 @@ function InforationPage() {
     )
 }
 
-export default InforationPage;
+export default InformationPage;
