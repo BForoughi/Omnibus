@@ -26,14 +26,18 @@ function InformationPage() {
 
     
 
-    if (!resource) return <div>Loading...</div>;
+    if (!resource) return (<div className="d-flex justify-content-center"><h3>Loading your request as fast as we can...</h3></div>);
 
     return(
         <div className="information-page_container">
             <AppNavbar/>
             <div className="information-page_inner">
                 <div className="information-page_information-section">
-                    <h1 className="discover-header">{resource.name}</h1>
+                    {resource.volume ? (
+                        <h1 className="discover-header">{resource.volume?.name} {resource.name}</h1>
+                    ) : (
+                        <h1 className="discover-header">{resource.name}</h1>
+                    )}
                 </div>
             </div>
         </div>
