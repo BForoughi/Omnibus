@@ -93,7 +93,7 @@ function Discover(){
                     <div className="featured-wrapper">
                         <div className="discover-row featured-row">
                             {featured.map((comic, i) => (
-                                <Link key={i} to={`/info/${comic.id}?type=${comic.resource_type}`} style={{ textDecoration: 'none' }}>
+                                <Link key={i} to={`/info/${comic.id}?type=${comic.resource_type}`} style={{ textDecoration: 'none', color: 'black' }}>
                                     <ComicCard 
                                         // key={i}
                                         image={comic.image?.medium_url}

@@ -60,7 +60,7 @@ export default function ComicCarousel ({ comics }){
 
             <div className="discover-row carousel-track" ref={scrollRef}>
                 {comics.map((comic, i) => (
-                    <Link key={i} to={`/info/${comic.id}?type=${comic.resource_type}`} style={{ textDecoration: 'none' }}>
+                    <Link key={i} to={`/info/${comic.id}?type=${comic.resource_type}`} style={{ textDecoration: 'none', color: 'black' }}>
                         <ComicCard 
                             image={comic.image?.medium_url}
                             volume={comic.volume?.name}

@@ -174,7 +174,7 @@ body {
 }
 
 .description{
-  max-width: 70%;
+  width: 70%;
 }
 .description p{
   font-family: 'Open Sans',sans-serif;
@@ -206,6 +206,23 @@ body {
   font-size: 1.7rem;
   text-decoration: underline;
   letter-spacing: 8%;
+}
+
+.details{
+  border: 3px solid #E8503A;
+  border-radius: 1vw;
+  padding: 1.2vw;
+  margin-top: 1vw;
+}
+.details h2{
+  font-family: 'roboto-mono', monospace;
+  text-decoration: underline;
+  font-weight: 600;
+}
+.details p{
+  font-family: 'roboto-mono', monospace;
+  font-weight: 500;
+  font-size: 1.4rem;
 }
 
 @keyframes shimmer {
