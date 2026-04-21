@@ -158,10 +158,54 @@ body {
 }
 
 #resource-image{
-  width: 20vw;
-  max-height: 20vw;
+  width: 16vw;
+  max-width: 20vw;
+  max-height: 24vw;
   border-radius: 5px;
   border: 2px solid #8B8B8B42;
+}
+
+#publisher-image{
+  width: 18vw;
+  max-width: 18vw;
+  max-height: 18vw;
+  border-radius: 5px;
+  border: 2px solid #8B8B8B42;
+}
+
+.description{
+  max-width: 70%;
+}
+.description p{
+  font-family: 'Open Sans',sans-serif;
+  font-size: 1.1rem;
+}
+.description-data p{
+  font-family: 'Open Sans',sans-serif;
+  font-size: 1.1rem;
+}
+.description-data h1{
+  font-family: 'Poppins',sans-serif;
+}
+.description-data h2{
+  font-family: 'Poppins',sans-serif;
+  font-weight: 300;
+}
+.description-data h3{
+  font-family: 'Poppins',sans-serif;
+}
+.description-data h4{
+  font-family: 'Poppins',sans-serif;
+}
+
+.see-more{
+  border: none;
+  background-color: #FDFFF8;
+  color: #E8503A;
+  font-family: 'roboto-mono', monospace;
+  font-size: 1.7rem;
+  text-decoration: underline;
+  letter-spacing: 8%;
 }
 
 @keyframes shimmer {

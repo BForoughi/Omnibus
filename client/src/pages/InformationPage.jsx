@@ -24,9 +24,25 @@ function InformationPage() {
         fetchComic();
     }, [id, type]);
 
+
+    const [expanded, setExpanded] = useState(false);
     
 
     if (!resource) return (<div className="d-flex justify-content-center"><h3>Loading your request as fast as we can...</h3></div>);
+
+    // const shortenedDescription = resource.description.slice(0, 350);
+
+    const stripHTML = (html = "") => {
+        const div = document.createElement("div");
+        div.innerHTML = html;
+            return div.textContent || div.innerText || "";
+        };
+
+    const plainText = stripHTML(resource.description);
+    const shortenedDescription = plainText.slice(0, 350);
+
+    // wanted to have different image styling for publishers
+    const elementId = type === "publisher" ? "publisher-image" : "resource-image";
 
     return(
         <div className="information-page_container">
@@ -40,14 +56,23 @@ function InformationPage() {
                     )}
 
                     <div className="information-section_content d-flex gap-3">
-                        <img id="resource-image" src={resource.image?.medium_url} alt={resource.name} />
+                        <img id={elementId} src={resource.image?.medium_url} alt={resource.name} />
                         <div className="description">
                             {resource.deck && <p>{resource.deck}</p>}
                             {/* comic vine api returns html so this is needed - taken from chatgpt when i searched what is comic vines description return name */}
-                            <div
-                                dangerouslySetInnerHTML={{ __html: resource.description }}
+                            {expanded ? (
+                                <div className="description-data"
+                                    dangerouslySetInnerHTML={{ __html: resource.description }}
                             />
-
+                            ) : (
+                                <p>{shortenedDescription}...</p>
+                            )}
+                            <div className="d-flex justify-content-end">
+                                <button className="see-more" onClick={() => setExpanded(!expanded)}>
+                                    {expanded ? "Show less" : "Read more"}
+                                </button>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
