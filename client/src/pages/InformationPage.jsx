@@ -83,6 +83,13 @@ function InformationPage() {
                             {expanded ? (
                                 <div className="description-data"
                                     dangerouslySetInnerHTML={{ __html: resource.description }}
+                                    onClick={(e) => {
+                                        if (e.target.tagName === 'A') {
+                                            e.preventDefault();
+                                            const href = e.target.getAttribute('href');
+                                            window.open(`https://comicvine.gamespot.com${href}`, '_blank');
+                                        }
+                                    }}
                             />
                             ) : (
                                 <p>{shortenedDescription}...</p>
@@ -91,10 +98,13 @@ function InformationPage() {
                             
 
                             <div className="d-flex justify-content-between">
-                                <div className="modal-btn_container">
-                                    <button className="info-btns" id="creators-btn" onClick={() => setActiveModal('creators')}>View Creators</button>
-                                    <button className="info-btns" onClick={() => setActiveModal('characters')}>View Characters</button>
-                                </div>
+                                {(type === "issue" || type === "volume") && 
+                                    <div className="modal-btn_container">
+                                        <button className="info-btns" id="creators-btn" onClick={() => setActiveModal('creators')}>View Creators</button>
+                                        <button className="info-btns" onClick={() => setActiveModal('characters')}>View Characters</button>
+                                    </div>
+                                }
+                                
                                 <button className="info-btns" onClick={() => setExpanded(!expanded)}>
                                     {expanded ? "Show less" : "Read more"}
                                 </button>
