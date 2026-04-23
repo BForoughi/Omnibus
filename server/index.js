@@ -215,10 +215,9 @@ app.get("/api/info/:id", async (req, res) => {
       issue: `https://comicvine.gamespot.com/api/issue/4000-${id}/?api_key=${KEY}&format=json&field_list=id,name,image,description,deck,cover_date,issue_number,volume,person_credits,character_credits`,
       volume: `https://comicvine.gamespot.com/api/volume/4050-${id}/?api_key=${KEY}&format=json&field_list=id,name,image,description,deck,count_of_issues,person_credits,character_credits`,
       character: `https://comicvine.gamespot.com/api/character/4005-${id}/?api_key=${KEY}&format=json&field_list=id,name,image,description,deck,person_credits,character_credits`,
-      publisher: `https://comicvine.gamespot.com/api/publisher/4010-${id}/?api_key=${KEY}&format=json&field_list=id,name,image,description,deck,person_credits,character_credits`
+      publisher: `https://comicvine.gamespot.com/api/publisher/4010-${id}/?api_key=${KEY}&format=json&field_list=id,name,image,description,deck,person_credits,character_credits`,
+      person: `https://comicvine.gamespot.com/api/person/4040-${id}/?api_key=${KEY}&format=json`
     };
-
-    
 
     const url = endpoints[type];
 
@@ -227,7 +226,6 @@ app.get("/api/info/:id", async (req, res) => {
     const response = await fetch(url);
     const data = await response.json();
 
-    console.log('person_credits sample:', data.results?.person_credits?.[0]);
     res.json(data.results);
   } catch (err) {
     console.error("fetch failed:", err);

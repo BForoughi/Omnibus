@@ -100,21 +100,23 @@ function InformationPage() {
                                 </button>
                             </div>
 
-                            <div className="details">
-                                <h2>Issue Details</h2>
-                                <div className="d-flex justify-content-between">
-                                    <div className="details-headers">
-                                        <p>Name: </p>
-                                        <p>Issues: </p>
-                                        <p>Cover Date: </p>
-                                    </div>
-                                    <div className="details-info">
-                                        <p>{resource.name}</p>
-                                        <p>{resource.issue_number ? resource.issue_number : "-/-"}</p>
-                                        <p>{resource.cover_date ? new Date(resource.cover_date).toLocaleDateString('en-GB') : "-/-"}</p>
+                            {(type === "issue" || type === "volume") &&
+                                <div className="details">
+                                    <h2>Issue Details</h2>
+                                    <div className="d-flex justify-content-between">
+                                        <div className="details-headers">
+                                            <p>Name: </p>
+                                            <p>Issues: </p>
+                                            <p>Cover Date: </p>
+                                        </div>
+                                        <div className="details-info">
+                                            <p>{resource.name}</p>
+                                            <p>{resource.issue_number ? resource.issue_number : "-/-"}</p>
+                                            <p>{resource.cover_date ? new Date(resource.cover_date).toLocaleDateString('en-GB') : "-/-"}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
                         </div>
                     </div>
                 </div>
