@@ -2,6 +2,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AppNavbar from "../components/Navbar";
 import '../stylesheets/App.css'
+import InfoModal from "../components/InfoModal";
 
 function InformationPage() {
     const { id } = useParams();
@@ -27,6 +28,7 @@ function InformationPage() {
 
     const [expanded, setExpanded] = useState(false);
     
+    const [activeModal, setActiveModal] = useState(null);
 
     if (!resource) return (<div className="d-flex justify-content-center"><h3>Loading your request as fast as we can...</h3></div>);
 
@@ -47,6 +49,24 @@ function InformationPage() {
     return(
         <div className="information-page_container">
             <AppNavbar/>
+
+            {/* -------MODAL CODE ------- */}
+            {activeModal === 'creators' && (
+                <InfoModal 
+                    title="Creators" 
+                    items={resource.person_credits} 
+                    onClose={() => setActiveModal(null)} 
+                />
+            )}
+
+            {activeModal === 'characters' && (
+                <InfoModal 
+                    title="Characters" 
+                    items={resource.character_credits} 
+                    onClose={() => setActiveModal(null)} 
+                />
+            )}
+
             <div className="information-page_inner">
                 <div className="information-page_information-section">
                     {resource.volume ? (
@@ -67,8 +87,15 @@ function InformationPage() {
                             ) : (
                                 <p>{shortenedDescription}...</p>
                             )}
-                            <div className="d-flex justify-content-end">
-                                <button className="see-more" onClick={() => setExpanded(!expanded)}>
+
+                            
+
+                            <div className="d-flex justify-content-between">
+                                <div className="modal-btn_container">
+                                    <button className="info-btns" id="creators-btn" onClick={() => setActiveModal('creators')}>View Creators</button>
+                                    <button className="info-btns" onClick={() => setActiveModal('characters')}>View Characters</button>
+                                </div>
+                                <button className="info-btns" onClick={() => setExpanded(!expanded)}>
                                     {expanded ? "Show less" : "Read more"}
                                 </button>
                             </div>
