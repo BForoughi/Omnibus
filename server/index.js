@@ -38,6 +38,12 @@ const filterSafe = (results) =>
     .filter((item) => item.name)
     .slice(0, 20);
 
+
+// Cache - I wanted to find ways of speeding up my website and claude suggested cache data
+let discoverCache = null;
+let cacheTime = null;
+const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
+
 // Search route
 app.get("/api/search", async (req, res) => {
   const { query, type } = req.query; // receiving the "value" aka query from frontend in handleSearch function
@@ -106,6 +112,11 @@ app.get("/api/discover", async (req, res) => {
     110413, // 100 Bullets
   ];
 
+  // return cached data if still fresh
+  if (discoverCache && Date.now() - cacheTime < CACHE_DURATION) {
+    return res.json(discoverCache); // this gets skipped on the first request as its empty
+  }
+
   try {
     // fire all API requests at the same time
     const [featuredIssuesRes, popularRes, recentRes, seriesRes] =
@@ -120,7 +131,7 @@ app.get("/api/discover", async (req, res) => {
         ),
         // recent issues - cover date
         fetch(
-          `https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&sort=cover_date:desc&limit=100`,
+          `https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&sort=cover_date:desc&limit=50`,
         ),
         // recommended series - long running volumes
         fetch(
@@ -170,12 +181,17 @@ app.get("/api/discover", async (req, res) => {
     }));
 
 
-    res.json({
-      featured,
-      popular,
-      recent,
-      series
-    });
+    const responseData = { featured, popular, recent, series }; 
+    discoverCache = responseData;  // saveing the data return to cache
+    cacheTime = Date.now(); //saves the current timestamp
+    res.json(responseData); // then returns data
+    
+    // res.json({
+    //   featured,
+    //   popular,
+    //   recent,
+    //   series
+    // });
 
     // used to find blacklist - google the publisher results
     // console.log('All publishers in results:',
