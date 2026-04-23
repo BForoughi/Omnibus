@@ -95,9 +95,7 @@ function InformationPage() {
                                 <p>{shortenedDescription}...</p>
                             )}
 
-                            
-
-                            <div className="d-flex justify-content-between">
+                            <div className="d-flex justify-content-between info-btns_container">
                                 {(type === "issue" || type === "volume") && 
                                     <div className="modal-btn_container">
                                         <button className="info-btns" id="creators-btn" onClick={() => setActiveModal('creators')}>View Creators</button>

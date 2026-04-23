@@ -198,6 +198,57 @@ body {
   font-family: 'Poppins',sans-serif;
 }
 
+.register-container{
+  width: 85%;
+  min-height: 45vw;
+}
+.register-container_inner{
+  padding: 2vw 13vw 3vw 13vw;
+  border: 8px solid #E8503A;
+  border-radius: 30px;
+  width: 70%;
+}
+
+.register-title_container{
+  gap: 2vw;
+}
+.login-title{
+  /* padding-right: 2vw; */
+}
+.reg-titles{
+  font-family: 'roboto-mono', monospace;
+}
+.auth-divider {
+  border-right: 3px solid black;
+  height: 4vw;  /* matches roughly the text height */
+}
+
+.register-inputs_container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.register-input{
+  margin-bottom: 2vw;
+  padding: 7px 20px;
+  font-family: 'roboto-mono', monospace;
+  font-size: 1.5rem;
+  border-radius: 17px;
+  background-color: #FDFFF8;
+}
+
+.reg-title--active {
+  color: #E8503A;
+  cursor: pointer;
+}
+
+.reg-title--inactive {
+  color: black;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
 .info-btns{
   border: none;
   background-color: #FDFFF8;
@@ -209,6 +260,10 @@ body {
 }
 #creators-btn{
   margin-right: 1vw;
+}
+.info-btns_container{
+  /* position: fixed;
+  top: 25vw; */
 }
 
 .details{
