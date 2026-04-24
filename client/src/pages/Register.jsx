@@ -4,6 +4,19 @@ import { useState } from "react";
 function Register(){
     const [activeTab, setActiveTab] = useState('register'); // 'login' or 'register'
 
+    // sending the username and password to login route
+    const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+    if (data.success) {
+        localStorage.setItem('token', data.token);
+    };
+
+
     return(
         <div className="d-flex">
             <AppNavbar/>

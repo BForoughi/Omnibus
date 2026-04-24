@@ -2,6 +2,41 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import mongoose from 'mongoose';
+import MongoStore from 'connect-mongo';
+import jwt from 'jsonwebtoken'
+
+// .env variables
+// -------MongoDB-------
+const mongoPassword = process.env.MONGODB_PASSWORD
+const mongoUsername = process.env.MONGODB_USERNAME
+const mongoAppName = process.env.MONGODB_MYAPPNAME
+
+const connectionString = `mongodb+srv://${mongoUsername}:${mongoPassword}@behrooz.jjo4ept.mongodb.net/${mongoAppName}?retryWrites=true&w=majority`
+mongoose.connect(connectionString)
+
+// using jwt tokens for the first time, said to claude i want to learn how to use them for this project and for it to teach me using
+// a previous uni project from last semester to explain the differences between jwt tokens and session cookies
+
+// middleware function that checks whether the user is allowed in or not - same concept as storing and checking user session id
+const authenticateToken = (req, res, next) => { // has the same structure as session checker
+  // when the frontend sends a request it attaches the token inside the request headers
+  const authHeader = req.headers['authorization'] // this line grabs the header
+  // when the header arrives its a full string with a label and token, we just need the token
+  const token = authHeader && authHeader.split(' ')[1] // this says split the string at the space and take the second index - there us a space in the '' - authHeader && means if its true/excists
+  if(!token) return res.status(401).json({ message: 'Unauthorised' });
+  
+  // this part takes the token and uses the secret in .env to decode and verify the token
+  // if the callback is err something is wrong, if its user then its fine and has returned the decoded data
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ message: 'Token invalid or expired' });
+
+    // if everything checks out the decoded token data which contains the user id gets attached to req.user
+    req.user = user
+    next() // says all good carry one
+  })
+
+}
 
 // ----------server controller---------
 const PORT = process.env.PORT || 4000;
@@ -189,19 +224,6 @@ app.get("/api/discover", async (req, res) => {
     cacheTime = Date.now(); //saves the current timestamp
     res.json(responseData); // then returns data
     
-    // res.json({
-    //   featured,
-    //   popular,
-    //   recent,
-    //   series
-    // });
-
-    // used to find blacklist - google the publisher results
-    // console.log('All publishers in results:',
-    // recentData.results
-    //     .map(r => ({ id: r.publisher?.id, name: r.publisher?.name }))
-    //     .filter((v, i, a) => a.findIndex(t => t.id === v.id) === i) // unique only
-    // );
   } catch (err) {
     console.error("Discover failed:", err);
     res.status(500).json({ error: "Failed to fetch discover data" });
@@ -234,4 +256,74 @@ app.get("/api/info/:id", async (req, res) => {
     console.error("fetch failed:", err);
     res.status(500).json({ error: "Failed to fetch resource" });
   }
+});
+
+
+// ----------- MONGODB and any USER DATA ---------------
+
+// -------- REGISTER ------------
+app.post('/api/register', async (req, res) =>{
+  const {username, password} = req.body;
+
+  try{
+    const user = await useSyncExternalStore.addUser(username, password);
+    if(!user){
+      return res.status(401).json({ success: false, message: "Username already taken" })
+    };
+
+    // sign a token with their new user id
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: '1hr' }
+    );
+
+    return res.status(200).json({
+      success: true,
+      token, // send token to frontend to store
+      user: { username: user.username }
+    });
+  } catch (err) {
+    console.error("Register error:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+// -------- LOGIN ------------
+app.post('/api/login', async(req, res) => {
+  const {username, password} = req.body;
+
+  try{
+    const user = await users.checkUser(username, password);
+    if(!user){
+      return res.status(401).json({ success: false, message: "Invalid username or password" });
+    }
+
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    return res.status(200).json({
+      success: true,
+      token,
+      user: { username: user.username }
+    });
+  }catch (err) {
+    console.error("Login error:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  };
+});
+
+// -------- AUTH CHECK ------------
+// authenticateToken is an arugment so it run the middleware function from above the routes - if it returns true an id has already been added
+app.get('/api/auth/check', authenticateToken, (req, res) => {
+  res.status(200).json({ loggedIn: true, userId: req.user.userId });
+});
+
+// -------- LOGOUT ------------
+// the front end destroys the token 
+app.post('/api/logout', (req, res) => {
+  res.status(200).json({ success: true })
 });
