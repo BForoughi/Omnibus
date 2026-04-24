@@ -103,8 +103,22 @@ function InformationPage() {
                                     </div>
                                 }
                                 
-                                <button className="info-btns" onClick={() => setExpanded(!expanded)}>
-                                    {expanded ? "Show less" : "Read more"}
+                                {expanded && (
+                                    <div style={{
+                                        position: 'fixed',
+                                        bottom: '2rem',
+                                        left: '50%',
+                                        transform: 'translateX(-50%)',
+                                        zIndex: 1000,
+                                    }}>
+                                        <button style={{backgroundColor: '#3d3d3d', borderRadius: '5px', padding: '10px 15px'}} className="info-btns" onClick={() => setExpanded(false)}>
+                                            Show less
+                                        </button>
+                                    </div>
+                                )}
+
+                                <button className="info-btns" onClick={() => setExpanded(true)} style={{ display: expanded ? 'none' : 'inline-block' }}>
+                                    Read more
                                 </button>
                             </div>
 
