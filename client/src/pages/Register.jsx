@@ -72,11 +72,13 @@ function Register(){
                         {/* shows error message if login/register fails */}
                         {error && <p className="text-danger">{error}</p>}
 
-                        {/* button changes based on active tab */}
-                        {activeTab === 'login' 
-                            ? <button className="register-btn" onClick={handleLogin}>Login</button>
-                            : <button className="register-btn" onClick={handleRegister}>Register</button>
-                        }
+                        <div className="d-flex justify-content-center">
+                            {/* button changes based on active tab */}
+                            {activeTab === 'login' 
+                                ? <button className="register-btn" onClick={handleLogin}>Login</button>
+                                : <button className="register-btn" onClick={handleRegister}>Register</button>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
