@@ -28,7 +28,7 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 // inappropriate or old publishers - i logged all returned publishers and then googled them
 const blockedPublisherIds = [
   7768, 4727, 5, 8, 4, 22, 32, 4983, 57, 89, 37, 45, 2043, 2781, 178, 1977,
-  7768, 4727, 11688, 11685, 3602,
+  7768, 4727, 11688, 11685, 3602, 2303
 ];
 
 // filter results to remove unsafe publishers
@@ -95,6 +95,8 @@ app.get("/api/search", async (req, res) => {
 
 // Displaying comics on the discover page router
 app.get("/api/discover", async (req, res) => {
+  discoverCache = null;
+  cacheTime = null;
   // this is for the featured section - my personal favourites - id's are taken from comic vine
   const featuredIssueIds = [1074455, 265714, 506175, 517815, 269827];
 
@@ -131,7 +133,7 @@ app.get("/api/discover", async (req, res) => {
         ),
         // recent issues - cover date
         fetch(
-          `https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&sort=cover_date:desc&limit=50`,
+          `https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&sort=cover_date:desc&limit=50&field_list=id,name,image,cover_date,issue_number,volume,publisher`
         ),
         // recommended series - long running volumes
         fetch(
@@ -150,11 +152,11 @@ app.get("/api/discover", async (req, res) => {
 
 
     // for recent issues - filters by cover date and publisher
+    const blockedVolumeIds = [92701, 137543];
+
     const filterRecentIssues = (results) =>
       results
-        .filter(
-          (item) => !blockedPublisherIds.includes(item.volume?.publisher?.id),
-        )
+        .filter((item) => !blockedVolumeIds.includes(item.volume?.id))
         .filter((item) => item.name)
         .slice(0, 20);
 
@@ -180,6 +182,7 @@ app.get("/api/discover", async (req, res) => {
       resource_type: 'volume'
     }));
 
+    
 
     const responseData = { featured, popular, recent, series }; 
     discoverCache = responseData;  // saveing the data return to cache
