@@ -3,8 +3,8 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import mongoose from 'mongoose';
-import MongoStore from 'connect-mongo';
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
+import * as users from './models/userModel.js'
 
 // .env variables
 // -------MongoDB-------
@@ -266,7 +266,7 @@ app.post('/api/register', async (req, res) =>{
   const {username, password} = req.body;
 
   try{
-    const user = await useSyncExternalStore.addUser(username, password);
+    const user = await users.addUser(username, password);
     if(!user){
       return res.status(401).json({ success: false, message: "Username already taken" })
     };
@@ -275,7 +275,7 @@ app.post('/api/register', async (req, res) =>{
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET,
-      { expiresIn: '1hr' }
+      { expiresIn: '1h' }
     );
 
     return res.status(200).json({

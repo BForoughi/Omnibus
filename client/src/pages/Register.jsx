@@ -37,7 +37,7 @@ function Register(){
 
         if (data.success) {
             localStorage.setItem('token', data.token);
-            // redirect after register
+            navigate('/')
         } else {
             setError(data.message) // e.g. "Username already taken"
         }
