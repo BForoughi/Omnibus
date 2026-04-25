@@ -3,20 +3,20 @@ import {NavLink, useNavigate} from 'react-router-dom'
 import "../stylesheets/Navbar.css"
 import NavSearchBar from './SearchBar'
 import { useState } from 'react'
+import { useAuth } from '../context/AuthContext'
 // Edited from react bootstrap docs
 
 function AppNavbar(){
     const navigate = useNavigate()
-    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'))
+    const { isLoggedIn, logout } = useAuth()
     // !! converts the value to a boolean - if token exists = true, if null = false
 
     // logout
     const handleLogout = () => {
-        localStorage.removeItem('token')
-        setIsLoggedIn(false)
+        logout() // handles localStorage and state in one go
         navigate('/RegisterPage')
     }
-    
+
     return(
         <Navbar expand="lg" className='app-nav'>
             <Container className='app-nav_inner ms-0 ps-0'>
@@ -32,7 +32,10 @@ function AppNavbar(){
                         </Nav.Link>
                         <NavSearchBar />
                         <Nav.Link as={NavLink} to="/RegisterPage" className='app-nav_link'>
-                            <span className='app-nav_label app-nav_register-label'>Register</span>
+                            {isLoggedIn
+                                ? <button style={{border: "none", backgroundColor: "#FDFFF8"}} className='app-nav_label app-nav_register-label' onClick={handleLogout}>Logout</button>
+                                : <span className='app-nav_label app-nav_register-label'>Register</span>
+                            }
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>

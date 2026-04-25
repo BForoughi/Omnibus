@@ -1,6 +1,7 @@
 import AppNavbar from "../components/Navbar"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
 
 function Register(){
     const [activeTab, setActiveTab] = useState('register'); // 'login' or 'register'
@@ -8,6 +9,7 @@ function Register(){
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
+    const { login } = useAuth();
     const navigate = useNavigate();
 
     // sending the username and password to login route
@@ -20,8 +22,8 @@ function Register(){
         const data = await res.json();
 
         if (data.success) {
-            localStorage.setItem('token', data.token);
-            // redirect to discover or home page after login
+            login(data.token, data.user) // this handles localStorage and state in one go
+            navigate('/')
         } else {
             setError(data.message) // e.g. "Invalid username or password"
         }
@@ -36,7 +38,7 @@ function Register(){
         const data = await res.json();
 
         if (data.success) {
-            localStorage.setItem('token', data.token);
+            login(data.token, data.user) 
             navigate('/')
         } else {
             setError(data.message) // e.g. "Username already taken"
