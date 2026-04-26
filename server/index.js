@@ -329,7 +329,7 @@ app.post('/api/logout', (req, res) => {
   res.status(200).json({ success: true })
 });
 
-// --------- SAVE COMICS ----------
+// --------- SAVING COMICS ----------
 app.post('/api/library', authenticateToken, async (req, res) => {
   const { comicId, comicName, issueNumber, type, coverImage } = req.body;
 
@@ -377,4 +377,29 @@ app.delete('/api/library/:id', authenticateToken, async (req, res) => {
     console.error("Library remove error:", err)
     res.status(500).json({ message: "Server error" });
   }
-})
+});
+
+// --------FETCHING COMICS---------
+app.get('/api/library', authenticateToken, async (req, res) => {
+  try{
+    const comics = await LibraryItem.find({userId: req.user.userId})
+  
+    // sending clean data - not raw mongo data
+    const clean = comics.map((a) => {
+      return{
+        _id: a._id,
+        userId: a.userId,
+        comicId: a.comicId,
+        title: a.title,
+        type: a.type,
+        coverImage: a.coverImage,
+        issueNumber: a.issueNumber,
+        read: a.read
+      }
+    })
+    res.json({success: true, comics: clean})
+  }catch(err){
+    console.error("error fetching albums", err)
+    res.status(500).json({success: false, message: "Server Error"})
+  }
+});
