@@ -61,7 +61,7 @@ function InformationPage() {
                 },
                 body: JSON.stringify({
                     comicId: String(resource.id),
-                    comicName: resource.volume ? `${resource.volume.name}: ${resource.name}` : resource.name,
+                    comicName: resource.volume ? `${resource.volume.name}: ${resource.name}` : resource.name, // .volume means its an issue and is apart of a volume
                     type: type,
                     coverImage: resource.image?.medium_url,
                     issueNumber: resource.issue_number || null,

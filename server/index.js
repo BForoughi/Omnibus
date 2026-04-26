@@ -396,7 +396,8 @@ app.get('/api/library', authenticateToken, async (req, res) => {
         coverImage: a.coverImage,
         issueNumber: a.issueNumber,
         read: a.read,
-        publisher: a.publisher
+        publisher: a.publisher,
+        createdAt: a.createdAt
       }
     })
     res.json({success: true, comics: clean})
