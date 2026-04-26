@@ -27,6 +27,6 @@ const librarySchema = new Schema({
 }, { timestamps: true })
 
 // prevents the same user saving the same comic twice
-libraryItemSchema.index({ userId: 1, comicId: 1 }, { unique: true })
+librarySchema.index({ userId: 1, comicId: 1 }, { unique: true })
 
-export const LibraryItem = mongoose.model('LibraryItem', libraryItemSchema)
+export const LibraryItem = mongoose.model('LibraryItem', librarySchema)
