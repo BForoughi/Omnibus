@@ -403,3 +403,22 @@ app.get('/api/library', authenticateToken, async (req, res) => {
     res.status(500).json({success: false, message: "Server Error"})
   }
 });
+
+// --------READ COMIC TOGGLE----------
+app.patch('/api/library/:id/read', authenticateToken, async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const comic = await LibraryItem.findOne({ _id: id, userId: req.user.userId })
+    if(!comic) return res.status(404).json({ message: "Comic not found" })
+
+    // flip the read value - if true make false, if false make true
+    comic.read = !comic.read
+    await comic.save()
+
+    res.status(200).json({ success: true, read: comic.read })
+  }catch(err) {
+    console.error("Read toggle error:", err)
+    res.status(500).json({ message: "Server error" })
+  }
+})
