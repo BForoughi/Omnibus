@@ -5,6 +5,7 @@ import cors from "cors";
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import * as users from './models/userModel.js'
+import { LibraryItem } from './models/libraryModel.js'
 
 // .env variables
 // -------MongoDB-------
@@ -327,3 +328,53 @@ app.get('/api/auth/check', authenticateToken, (req, res) => {
 app.post('/api/logout', (req, res) => {
   res.status(200).json({ success: true })
 });
+
+// --------- SAVE COMICS ----------
+app.post('/api/library', authenticateToken, async (req, res) => {
+  const { comicId, comicName, issueNumber, type, coverImage } = req.body;
+
+  if(!comicId || !comicName) return res.status(400).json({ message: "No comic ID or name" });
+
+  try{
+    const saveComic = await LibraryItem.create({
+      userId: req.user.userId,
+      comicId,
+      title: comicName,
+      type,
+      coverImage,
+      issueNumber
+    });
+
+    res.status(201).json({
+      success: true,
+      comic: saveComic
+    });
+  } catch(err){
+    // handle duplicate - user already saved this comic
+    if(err.code === 11000) return res.status(400).json({ message: "Already in library" })
+    console.error("Library save error:", err)
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// ------REMOVE A COMIC---------
+app.delete('/api/library/:id', authenticateToken, async (req, res) => {
+  const { id } = req.params; // from the url (parameter)
+  if(!id) return res.status(400).json({ message: "No comic ID" });
+
+  try{  
+    const deleteComic = await LibraryItem.findOneAndDelete({
+      _id: id,
+      userId: req.user.userId
+    });
+
+    if(!deleteComic) return res.status(404).json({ message: "Comic not found in library" })
+  
+    res.status(200).json({
+      success: true,
+    });
+  } catch(err){
+    console.error("Library remove error:", err)
+    res.status(500).json({ message: "Server error" });
+  }
+})
