@@ -29,6 +29,8 @@ function InformationPage() {
     const [expanded, setExpanded] = useState(false);
     
     const [activeModal, setActiveModal] = useState(null);
+    const [saved, setSaved] = useState(false)
+    const [saveError, setSaveError] = useState(null)
 
     if (!resource) return (<div className="d-flex justify-content-center"><h3>Loading your request as fast as we can...</h3></div>);
 
@@ -45,6 +47,39 @@ function InformationPage() {
 
     // wanted to have different image styling for publishers
     const elementId = type === "publisher" ? "publisher-image" : "resource-image";
+
+    const handleSave = async () => {
+        const token = localStorage.getItem('token')
+        if(!token) return setSaveError('You need to be logged in to save comics')
+
+        try {
+            const res = await fetch('/api/library', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    comicId: String(resource.id),
+                    comicName: resource.volume ? `${resource.volume.name}: ${resource.name}` : resource.name,
+                    type: type,
+                    coverImage: resource.image?.medium_url,
+                    issueNumber: resource.issue_number || null,
+                    publisher: resource.volume?.publisher?.name || null
+                })
+            })
+            const data = await res.json()
+
+            if(data.success){
+                setSaved(true)
+            } else {
+                setSaveError(data.message) // e.g. "Already in library"
+            }
+        } catch(err) {
+            console.error("Save error:", err)
+            setSaveError('Something went wrong')
+        }
+    }
 
     return(
         <div className="information-page_container">
@@ -98,8 +133,18 @@ function InformationPage() {
                             <div className="d-flex justify-content-between info-btns_container">
                                 {(type === "issue" || type === "volume") && 
                                     <div className="modal-btn_container">
-                                        <button className="info-btns" id="creators-btn" onClick={() => setActiveModal('creators')}>View Creators</button>
-                                        <button className="info-btns" onClick={() => setActiveModal('characters')}>View Characters</button>
+                                        <button className="info-btns margin-btns" onClick={() => setActiveModal('creators')}>View Creators</button>
+                                        <button className="info-btns margin-btns" onClick={() => setActiveModal('characters')}>View Characters</button>
+
+                                        {/* save to library button */}
+                                        <button 
+                                            className="info-btns" 
+                                            onClick={handleSave}
+                                            disabled={saved}
+                                        >
+                                            {saved ? '✓ Saved' : 'Save to Library'}
+                                        </button>
+                                        {saveError && <p style={{color: 'red', fontSize: '0.8rem'}}>{saveError}</p>}
                                     </div>
                                 }
                                 

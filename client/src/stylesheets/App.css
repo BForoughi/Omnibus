@@ -269,8 +269,8 @@ body {
   text-decoration: underline;
   letter-spacing: 8%;
 }
-#creators-btn{
-  margin-right: 1vw;
+.margin-btns{
+  margin-right: 1.2vw;
 }
 .info-btns_container{
   /* position: fixed;
