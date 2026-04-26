@@ -90,8 +90,105 @@ function Library(){
         }
     }
 
+    const filtered = getFilteredComics()
 
-    return
+    return (
+        <div className="d-flex gap-5">
+            <AppNavbar />
+            <div className="library-container">
+                <h1 className="library-main-title discover-header">Library</h1>
+
+                {/* filter bar */}
+                <div className="library-filters d-flex gap-2">
+                    <button 
+                        className={`filter-btn ${filter === 'all' ? 'filter-btn--active' : ''}`}
+                        onClick={() => setFilter('all')}
+                    >
+                        All Comics
+                    </button>
+                    <button 
+                        className={`filter-btn ${filter === 'recent' ? 'filter-btn--active' : ''}`}
+                        onClick={() => setFilter('recent')}
+                    >
+                        Recent
+                    </button>
+
+                    {/* publishers dropdown */}
+                    <div className="dropdown">
+                        <button 
+                            className={`filter-btn dropdown-toggle ${filter === 'publisher' ? 'filter-btn--active' : ''}`}
+                            data-bs-toggle="dropdown"
+                        >
+                            Publishers
+                        </button>
+                        <ul className="dropdown-menu">
+                            {publishers.map(p => (
+                                <li key={p}>
+                                    <button 
+                                        className="dropdown-item"
+                                        onClick={() => {
+                                            setFilter('publisher')
+                                            setSelectedPublisher(p)
+                                        }}
+                                    >
+                                        {p}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <button 
+                        className={`filter-btn ${filter === 'read' ? 'filter-btn--active' : ''}`}
+                        onClick={() => setFilter('read')}
+                    >
+                        Read
+                    </button>
+                    <button 
+                        className={`filter-btn ${filter === 'unread' ? 'filter-btn--active' : ''}`}
+                        onClick={() => setFilter('unread')}
+                    >
+                        Unread
+                    </button>
+                </div>
+
+                {/* dynamic title */}
+                <h2 className="library-filter-title">{getTitle()}</h2>
+
+                {/* comics grid */}
+                {loading ? (
+                    <p>Loading...</p>
+                ) : filtered.length === 0 ? (
+                    <p>No comics found</p>
+                ) : (
+                    <div className="library-grid">
+                        {filtered.map(comic => (
+                            <div key={comic._id} className="library-card">
+                                <img 
+                                    src={comic.coverImage} 
+                                    alt={comic.title}
+                                    className="library-card_img"
+                                />
+                                <div className="library-card_info d-flex justify-content-between align-items-center">
+                                    <span className="library-card_title">{comic.title}</span>
+                                    {/* read/unread tick */}
+                                    <button 
+                                        className={`read-btn ${comic.read ? 'read-btn--read' : ''}`}
+                                        onClick={(e) => toggleRead(comic._id, e)}
+                                        title={comic.read ? 'Mark as unread' : 'Mark as read'}
+                                    >
+                                        ✓
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </div>
+    )
 }
+
+
 
 export default Library

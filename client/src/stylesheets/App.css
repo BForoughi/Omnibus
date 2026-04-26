@@ -353,6 +353,39 @@ body {
   color: #E8503A;
 }
 
+.library-container{
+  width: 80%;
+}
+
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.library-card_img {
+  width: 100%;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+}
+
+.read-btn {
+  opacity: 0.3;
+  border: none;
+  background: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.read-btn--read {
+  opacity: 1;
+  color: green;
+}
+
+.filter-btn--active {
+    /* match your existing yellow pill style */
+}
+
 @keyframes shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
