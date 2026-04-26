@@ -369,6 +369,16 @@ body {
   object-fit: cover;
 }
 
+.library-filters{
+  /* margin: 40px 0px 40px 102px; */
+  margin-top: 2vw;
+  margin-bottom: 2vw;
+  margin-left: -14.2vw;
+  padding: 1.2vw 20vw 1.2vw 19.7vw;
+  background-color: #E8503A;
+  width: 127.6%;
+}
+
 .read-btn {
   opacity: 0.3;
   border: none;
@@ -382,8 +392,17 @@ body {
   color: green;
 }
 
+.filter-btn{
+  background-color: #FFE600;
+  border: 0px;
+  border-radius: 10px;
+  padding: 5px 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
 .filter-btn--active {
-    /* match your existing yellow pill style */
+  background-color: #FDFFF8;
 }
 
 @keyframes shimmer {

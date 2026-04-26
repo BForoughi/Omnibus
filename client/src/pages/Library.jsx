@@ -153,7 +153,7 @@ function Library(){
                 </div>
 
                 {/* dynamic title */}
-                <h2 className="library-filter-title">{getTitle()}</h2>
+                <h1 className="library-filter-title discover-header">{getTitle()}</h1>
 
                 {/* comics grid */}
                 {loading ? (
