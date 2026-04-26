@@ -41,7 +41,34 @@ function Library(){
         }
     }
 
-    
+    // returns the correct comics based on active filter
+    const getFilteredComics = () => {
+        switch(filter) { // I stumbled across a "switch" when scrolling on tiktok but forgot the save the video to reference
+            case 'recent':
+                return [...comics].sort((a, b) => 
+                    new Date(b.createdAt) - new Date(a.createdAt)
+                )
+            case 'read':
+                return comics.filter(c => c.read)
+            case 'unread':
+                return comics.filter(c => !c.read)
+            case 'publisher':
+                return comics.filter(c => c.publisher === selectedPublisher)
+            default:
+                return comics // all comics
+        }
+    }
+
+    // changes the header based on the active filter
+    const getTitle = () => {
+        switch(filter) {
+            case 'recent': return 'Recently Added'
+            case 'read': return 'Read Comics'
+            case 'unread': return 'Unread Comics'
+            case 'publisher': return selectedPublisher
+            default: return 'All Comics'
+        }
+    }
 
 
     return
