@@ -70,6 +70,26 @@ function Library(){
         }
     }
 
+    // a toggle that tells the user if they've read the comic or not
+    const toggleRead = async (id, a) => {
+        a.stopPropagation() // this stops anything behing the button being clicked or set off
+
+        const token = localStorage.getItem('token')
+        // patch request - the backend handles the toggle change already
+        const res = await fetch(`/api/library/${id}/read`, {
+            method: 'PATCH',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        const data = await res.json();
+        if(data.success){
+            // this updates just the one comic state so it doesnt refetch the whole page
+            setComics(prev => prev.map(c => // prev is the current state
+                c._id === id ? { ...c, read: data.read } : c // ": c" means all the other comics not changed stays the same
+            ))
+        }
+    }
+
 
     return
 }
