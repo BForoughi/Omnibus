@@ -22,7 +22,8 @@ const librarySchema = new Schema({
     read: { 
         type: Boolean, 
         default: false // defaults to unread when first saved
-    }
+    },
+    publisher: { type: String }
 }, { timestamps: true })
 
 // prevents the same user saving the same comic twice

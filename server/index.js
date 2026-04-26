@@ -331,7 +331,7 @@ app.post('/api/logout', (req, res) => {
 
 // --------- SAVING COMICS ----------
 app.post('/api/library', authenticateToken, async (req, res) => {
-  const { comicId, comicName, issueNumber, type, coverImage } = req.body;
+  const { comicId, comicName, issueNumber, type, coverImage, publisher } = req.body;
 
   if(!comicId || !comicName) return res.status(400).json({ message: "No comic ID or name" });
 
@@ -342,7 +342,8 @@ app.post('/api/library', authenticateToken, async (req, res) => {
       title: comicName,
       type,
       coverImage,
-      issueNumber
+      issueNumber,
+      publisher
     });
 
     res.status(201).json({
@@ -394,7 +395,8 @@ app.get('/api/library', authenticateToken, async (req, res) => {
         type: a.type,
         coverImage: a.coverImage,
         issueNumber: a.issueNumber,
-        read: a.read
+        read: a.read,
+        publisher: a.publisher
       }
     })
     res.json({success: true, comics: clean})
