@@ -17,6 +17,7 @@ function InformationPage() {
             const res = await fetch(`/api/info/${id}?type=${type}`);
             const data = await res.json();
             setResource(data);
+            console.log(resource)
         } catch (err) {
             console.error(err);
         }
