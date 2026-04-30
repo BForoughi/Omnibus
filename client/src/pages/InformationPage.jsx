@@ -136,6 +136,38 @@ function InformationPage() {
             console.error("Review error:", err)
             setReviewError('Something went wrong')
         }
+    };
+
+    const handleReply = async (parentId) => {
+        const token = localStorage.getItem('token')
+        if(!token) return setReviewError('You need to be logged in to reply')
+        if(!replyBody) return setReviewError('Please write a reply')
+
+        try {
+            const res = await fetch('/api/reviews', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    comicId: String(resource.id),
+                    comicType: type,
+                    title: '', // replies dont need a title
+                    body: replyBody,
+                    parentId // the review being replied to
+                })
+            })
+            const data = await res.json()
+
+            if(data.success){
+                setReviews(prev => [...prev, data.review]) // add reply to state
+                setReplyingTo(null)
+                setReplyBody('')
+            }
+        } catch(err) {
+            console.error("Reply error:", err)
+        }
     }
 
     return(
