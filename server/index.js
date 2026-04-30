@@ -502,3 +502,30 @@ app.delete('/api/reviews/:id', authenticateToken, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+// ---------fetching issues within a volume---------
+app.get('/api/volume/:volumeId/issues', async (req, res) => {
+  const { volumeId } = req.params
+
+  try {
+    const response = await fetch(
+      `https://comicvine.gamespot.com/api/issues/?api_key=${KEY}&format=json&filter=volume:${volumeId}&field_list=id,name,image,issue_number,volume&limit=50&sort=issue_number:asc`
+    )
+    const data = await response.json()
+
+    if(!data.results) return res.status(404).json({ success: false, message: "No issues found" })
+
+    const clean = data.results.map(i => ({
+      id: i.id,
+      name: i.name,
+      image: i.image?.medium_url,
+      issue_number: i.issue_number,
+      volume: i.volume
+  }))
+
+  res.json({ success: true, issues: clean })
+  } catch(err) {
+    console.error("Volume issues fetch failed:", err)
+    res.status(500).json({ success: false, message: "Server error" })
+  }
+})
