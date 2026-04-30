@@ -168,7 +168,26 @@ function InformationPage() {
         } catch(err) {
             console.error("Reply error:", err)
         }
-    }
+    };
+
+    const handleDeleteReview = async (reviewId) => {
+        const token = localStorage.getItem('token')
+
+        try {
+            const res = await fetch(`/api/reviews/${reviewId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            const data = await res.json()
+
+            if(data.success){
+                // remove from state without refetching
+                setReviews(prev => prev.filter(r => r._id !== reviewId))
+            }
+        } catch(err) {
+            console.error("Delete review error:", err)
+        }
+    };
 
     return(
         <div className="information-page_container">
