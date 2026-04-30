@@ -103,6 +103,41 @@ function InformationPage() {
     const [replyBody, setReplyBody] = useState('')
     const [reviewError, setReviewError] = useState(null)
 
+    // review POST
+    const handleReview = async () => {
+        const token = localStorage.getItem('token')
+        if(!token) return setReviewError('You need to be logged in to leave a review')
+        if(!reviewTitle || !reviewBody) return setReviewError('Please fill in all fields')
+
+        try {
+            const res = await fetch('/api/reviews', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    comicId: String(resource.id),
+                    comicType: type,
+                    title: reviewTitle,
+                    body: reviewBody,
+                    parentId: null // top level review
+                })
+            })
+            const data = await res.json()
+
+            if(data.success){
+                setReviews(prev => [...prev, data.review]) // add new review to state without refetching
+                setReviewTitle('')
+                setReviewBody('')
+                setReviewError(null)
+            }
+        } catch(err) {
+            console.error("Review error:", err)
+            setReviewError('Something went wrong')
+        }
+    }
+
     return(
         <div className="information-page_container">
             <AppNavbar/>
