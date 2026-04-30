@@ -1,0 +1,100 @@
+.reviews-section {
+    margin-top: 3vw;
+    width: 86%;
+    margin-left: auto;
+    margin-right: auto;
+    border-top: 1px solid black;
+    padding-top: 2vw;
+}
+
+.reviews-title {
+    font-family: 'roboto-mono', monospace;
+    font-weight: 300;
+    text-decoration: underline;
+}
+
+.review-card {
+    padding: 1.5vw 0;
+    border-bottom: 1px solid #eee;
+}
+
+.reply-card {
+    margin-left: 2vw;
+    padding: 1vw 0 1vw 1.5vw;
+    border-left: 3px solid #E8503A;
+    margin-top: 1vw;
+}
+
+.review-username {
+    font-family: 'roboto-mono', monospace;
+    font-weight: 600;
+    color: #E8503A;
+    font-size: 1.4rem;
+}
+
+.review-card-title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    margin-top: 0.5vw;
+    font-size: 1.7rem;
+}
+
+.review-body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.1rem;
+    margin-top: 0.5vw;
+}
+
+.review-delete-btn {
+    background: none;
+    border: none;
+    color: #E8503A;
+    text-decoration: underline;
+    font-family: 'roboto-mono', monospace;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding-left: 50px;
+    
+}
+
+.review-reply-btn {
+    background: none;
+    border: none;
+    color: #E8503A;
+    text-decoration: underline;
+    font-family: 'roboto-mono', monospace;
+    font-size: 0.95rem;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 0.3vw;
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8vw;
+    margin-top: 1vw;
+    margin-bottom: 1.5vw;
+}
+
+.reply-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vw;
+    margin-top: 0.8vw;
+}
+
+.review-input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid #E8503A;
+    border-radius: 8px;
+    background-color: #FDFFF8;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+}
+
+.review-textarea {
+    min-height: 120px;
+    resize: vertical;
+}

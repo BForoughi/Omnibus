@@ -481,7 +481,7 @@ app.post('/api/reviews', authenticateToken, async (req, res) => {
 });
 
 // ---------DELETING REVIEWS---------
-app.delete('/api/review/:id', authenticateToken, async (req, res) => {
+app.delete('/api/reviews/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
   if(!id) return res.status(400).json({ message: "No review ID" });
 

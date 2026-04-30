@@ -6,7 +6,7 @@ const reviewSchema = new Schema({
     comicType: {type: String, enum: ['issue', 'volume'], required: true},
     userId: {type: Schema.Types.ObjectId, ref: 'userData', required: true},
     username: { type: String, required: true },
-    title: { type: String, required: true },
+    title: { type: String, default: '' },
     body: { type: String, required: true },
     parentId: { type: Schema.Types.ObjectId, default: null } // null = top level review (no replies), has id = a reply
 }, { timestamps: true })

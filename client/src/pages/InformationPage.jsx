@@ -2,10 +2,9 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AppNavbar from "../components/Navbar";
 import '../stylesheets/App.css'
+import '../stylesheets/Reviews.css'
 import InfoModal from "../components/InfoModal";
 import { useAuth } from '../context/AuthContext'
-
-const { isLoggedIn } = useAuth()
 
 function InformationPage() {
     const { id } = useParams();
@@ -14,12 +13,22 @@ function InformationPage() {
 
     const [resource, setResource] = useState(null);
 
+    // reviews usestates
+    const [reviews, setReviews] = useState([])
+    const [reviewTitle, setReviewTitle] = useState('')
+    const [reviewBody, setReviewBody] = useState('')
+    const [replyingTo, setReplyingTo] = useState(null) // stores the id of review being replied to
+    const [replyBody, setReplyBody] = useState('')
+    const [reviewError, setReviewError] = useState(null)
+    const { isLoggedIn } = useAuth()
+    const [showReviewForm, setShowReviewForm] = useState(false)
+
     useEffect(() => {
         const fetchComic = async () => {
         try {
             const res = await fetch(`/api/info/${id}?type=${type}`);
             const data = await res.json();
-            if(data.success) setResource(data);
+            setResource(data);
         } catch (err) {
             console.error("Failed to fetch comics:", err);
         }
@@ -95,14 +104,6 @@ function InformationPage() {
         }
     };
 
-    // reviews usestates
-    const [reviews, setReviews] = useState([])
-    const [reviewTitle, setReviewTitle] = useState('')
-    const [reviewBody, setReviewBody] = useState('')
-    const [replyingTo, setReplyingTo] = useState(null) // stores the id of review being replied to
-    const [replyBody, setReplyBody] = useState('')
-    const [reviewError, setReviewError] = useState(null)
-
     // review POST
     const handleReview = async () => {
         const token = localStorage.getItem('token')
@@ -131,6 +132,7 @@ function InformationPage() {
                 setReviewTitle('')
                 setReviewBody('')
                 setReviewError(null)
+                setShowReviewForm(false)
             }
         } catch(err) {
             console.error("Review error:", err)
@@ -297,6 +299,148 @@ function InformationPage() {
                 </div>
 
                 {/* reviews section */}
+                {(type === 'issue' || type === 'volume') && (
+                    <div className="reviews-section">
+                        <div className="reviews-header d-flex justify-content-between align-items-center">
+                            <h2 className="reviews-title">User Reviews</h2>
+                        </div>
+
+                        {/* add a review form - only shown when logged in */}
+                        {isLoggedIn && (
+                            <div>
+                                <button 
+                                    className="info-btns" 
+                                    onClick={() => setShowReviewForm(!showReviewForm)}
+                                >
+                                    {showReviewForm ? 'Cancel' : 'Add a Review'}
+                                </button>
+
+                                {showReviewForm && (
+                                    <div className="review-form">
+                                        <input
+                                            className="review-input"
+                                            type="text"
+                                            placeholder="Review title"
+                                            value={reviewTitle}
+                                            onChange={(e) => setReviewTitle(e.target.value)}
+                                        />
+                                        <textarea
+                                            className="review-input review-textarea"
+                                            placeholder="Write your review..."
+                                            value={reviewBody}
+                                            onChange={(e) => setReviewBody(e.target.value)}
+                                        />
+                                        {reviewError && <p style={{color: 'red', fontSize: '0.8rem'}}>{reviewError}</p>}
+                                        <button className="info-btns" onClick={handleReview}>Post Review</button>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {/* reviews list */}
+                        <div className="reviews-list">
+                            {reviews.filter(r => !r.parentId).length === 0 ? (
+                                <p>No reviews yet — be the first!</p>
+                            ) : (
+                                reviews
+                                    .filter(r => !r.parentId) // top level reviews only
+                                    .map(review => (
+                                        <div key={review._id} className="review-card">
+                                            {/* review header */}
+                                            <div className="d-flex align-items-center gap-2">
+                                                <span className="review-username">{review.username}:</span>
+                                                {isLoggedIn && review.username === JSON.parse(localStorage.getItem('user'))?.username && (
+                                                    <button 
+                                                        className="review-delete-btn"
+                                                        onClick={() => handleDeleteReview(review._id)}
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                )}
+                                            </div>
+
+                                            <h4 className="review-card-title">{review.title}</h4>
+                                            <p className="review-body">{review.body}</p>
+
+                                            {/* reply button */}
+                                            {isLoggedIn && (
+                                                <button 
+                                                    className="review-reply-btn"
+                                                    onClick={() => setReplyingTo(replyingTo === review._id ? null : review._id)}
+                                                >
+                                                    {replyingTo === review._id ? 'Cancel' : 'Reply'}
+                                                </button>
+                                            )}
+
+                                            {/* inline reply form */}
+                                            {replyingTo === review._id && (
+                                                <div className="reply-form">
+                                                    <textarea
+                                                        className="review-input review-textarea"
+                                                        placeholder="Write your reply..."
+                                                        value={replyBody}
+                                                        onChange={(e) => setReplyBody(e.target.value)}
+                                                    />
+                                                    <button className="info-btns" onClick={() => handleReply(review._id)}>
+                                                        Post Reply
+                                                    </button>
+                                                </div>
+                                            )}
+
+                                            {/* replies */}
+                                            <div className="replies-list">
+                                                {reviews
+                                                    .filter(r => String(r.parentId) === String(review._id)) // replies to this review
+                                                    .map(reply => (
+                                                        <div key={reply._id} className="reply-card">
+                                                            <div className="d-flex align-items-center gap-2">
+                                                                <span className="review-username">{reply.username}:</span>
+                                                                {isLoggedIn && reply.username === JSON.parse(localStorage.getItem('user'))?.username && (
+                                                                    <button 
+                                                                        className="review-delete-btn"
+                                                                        onClick={() => handleDeleteReview(reply._id)}
+                                                                    >
+                                                                        Delete
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                            <p className="review-body">{reply.body}</p>
+
+                                                            {/* reply to a reply */}
+                                                            {isLoggedIn && (
+                                                                <button
+                                                                    className="review-reply-btn"
+                                                                    onClick={() => setReplyingTo(replyingTo === reply._id ? null : reply._id)}
+                                                                >
+                                                                    {replyingTo === reply._id ? 'Cancel' : 'Reply'}
+                                                                </button>
+                                                            )}
+
+                                                            {replyingTo === reply._id && (
+                                                                <div className="reply-form">
+                                                                    <textarea
+                                                                        className="review-input review-textarea"
+                                                                        placeholder="Write your reply..."
+                                                                        value={replyBody}
+                                                                        onChange={(e) => setReplyBody(e.target.value)}
+                                                                    />
+                                                                    <button className="info-btns" onClick={() => handleReply(reply._id)}>
+                                                                        Post Reply
+                                                                    </button>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    ))
+                                                }
+                                            </div>
+                                        </div>
+                                    ))
+                            )}
+                        </div>
+                    </div>
+                )}
+                
+                {/* btm */}
             </div>
         </div>
     )
