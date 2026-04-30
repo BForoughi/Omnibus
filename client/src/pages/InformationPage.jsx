@@ -191,6 +191,57 @@ function InformationPage() {
         }
     };
 
+    // this next function - renderReplies was taken from claude.ai I explained that replies would show but not replies of replies but they were being stored and I couldn't figure out why they wouldn't appear
+    // so I asked what to do and showed it what i already had and it gave me this function to add
+    const renderReplies = (parentId) => {
+        const children = reviews.filter(r => String(r.parentId) === String(parentId))
+        if(children.length === 0) return null
+
+        return children.map(reply => (
+            <div key={reply._id} className="reply-card">
+                <div className="d-flex align-items-center gap-2">
+                    <span className="review-username">{reply.username}:</span>
+                    {isLoggedIn && reply.username === JSON.parse(localStorage.getItem('user'))?.username && (
+                        <button 
+                            className="review-delete-btn"
+                            onClick={() => handleDeleteReview(reply._id)}
+                        >
+                            Delete
+                        </button>
+                    )}
+                </div>
+                <p className="review-body">{reply.body}</p>
+
+                {isLoggedIn && (
+                    <button
+                        className="review-reply-btn"
+                        onClick={() => setReplyingTo(replyingTo === reply._id ? null : reply._id)}
+                    >
+                        {replyingTo === reply._id ? 'Cancel' : 'Reply'}
+                    </button>
+                )}
+
+                {replyingTo === reply._id && (
+                    <div className="reply-form">
+                        <textarea
+                            className="review-input review-textarea"
+                            placeholder="Write your reply..."
+                            value={replyBody}
+                            onChange={(e) => setReplyBody(e.target.value)}
+                        />
+                        <button className="info-btns" onClick={() => handleReply(reply._id)}>
+                            Post Reply
+                        </button>
+                    </div>
+                )}
+
+                {/* recursively render replies to this reply */}
+                {renderReplies(reply._id)}
+            </div>
+        ))
+    }
+    // -------------END-----------------
+
     return(
         <div className="information-page_container">
             <AppNavbar/>
@@ -389,49 +440,7 @@ function InformationPage() {
 
                                             {/* replies */}
                                             <div className="replies-list">
-                                                {reviews
-                                                    .filter(r => String(r.parentId) === String(review._id)) // replies to this review
-                                                    .map(reply => (
-                                                        <div key={reply._id} className="reply-card">
-                                                            <div className="d-flex align-items-center gap-2">
-                                                                <span className="review-username">{reply.username}:</span>
-                                                                {isLoggedIn && reply.username === JSON.parse(localStorage.getItem('user'))?.username && (
-                                                                    <button 
-                                                                        className="review-delete-btn"
-                                                                        onClick={() => handleDeleteReview(reply._id)}
-                                                                    >
-                                                                        Delete
-                                                                    </button>
-                                                                )}
-                                                            </div>
-                                                            <p className="review-body">{reply.body}</p>
-
-                                                            {/* reply to a reply */}
-                                                            {isLoggedIn && (
-                                                                <button
-                                                                    className="review-reply-btn"
-                                                                    onClick={() => setReplyingTo(replyingTo === reply._id ? null : reply._id)}
-                                                                >
-                                                                    {replyingTo === reply._id ? 'Cancel' : 'Reply'}
-                                                                </button>
-                                                            )}
-
-                                                            {replyingTo === reply._id && (
-                                                                <div className="reply-form">
-                                                                    <textarea
-                                                                        className="review-input review-textarea"
-                                                                        placeholder="Write your reply..."
-                                                                        value={replyBody}
-                                                                        onChange={(e) => setReplyBody(e.target.value)}
-                                                                    />
-                                                                    <button className="info-btns" onClick={() => handleReply(reply._id)}>
-                                                                        Post Reply
-                                                                    </button>
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    ))
-                                                }
+                                                {renderReplies(review._id)}
                                             </div>
                                         </div>
                                     ))
