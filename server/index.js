@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import * as users from './models/userModel.js'
 import { LibraryItem } from './models/libraryModel.js'
+import { Review } from './models/reviewModel.js'
 
 // .env variables
 // -------MongoDB-------
@@ -423,5 +424,31 @@ app.patch('/api/library/:id/read', authenticateToken, async (req, res) => {
   }catch(err) {
     console.error("Read toggle error:", err)
     res.status(500).json({ message: "Server error" })
+  }
+});
+
+// ---------REVIEWS---------
+app.get('/api/reviews/:comicId', async (req, res) => {
+  const { comicId } = req.params
+
+  try{
+    const reviews = await Review.find({comicId})
+    
+    const clean = reviews.map((a) => {
+      return{
+        _id: a._id,
+        comicId: a.comicId,
+        comicType: a.comicType,
+        userId: a.userId,
+        username: a.username,
+        title: a.title,
+        body: a.body,
+        parentId: a.parentId
+      }
+    })
+    res.json({success: true, reviews: clean})
+  }catch(err){
+    console.error("error fetching reviews", err)
+    res.status(500).json({success: false, message: "Server Error"})
   }
 })
