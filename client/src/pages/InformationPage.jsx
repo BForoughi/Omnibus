@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import AppNavbar from "../components/Navbar";
 import '../stylesheets/App.css'
 import InfoModal from "../components/InfoModal";
+import { useAuth } from '../context/AuthContext'
+
+const { isLoggedIn } = useAuth()
 
 function InformationPage() {
     const { id } = useParams();
@@ -16,14 +19,24 @@ function InformationPage() {
         try {
             const res = await fetch(`/api/info/${id}?type=${type}`);
             const data = await res.json();
-            setResource(data);
-            console.log(resource)
+            if(data.success) setResource(data);
         } catch (err) {
-            console.error(err);
+            console.error("Failed to fetch comics:", err);
         }
         };
 
+        const fetchReviews = async () => {
+            try {
+                const res = await fetch(`/api/reviews/${id}`)
+                const data = await res.json();
+                if(data.success) setReviews(data.reviews)
+            } catch(err) {
+                console.error("Failed to fetch reviews:", err)
+            }
+        };
+
         fetchComic();
+        fetchReviews();
     }, [id, type]);
 
 
@@ -80,7 +93,15 @@ function InformationPage() {
             console.error("Save error:", err)
             setSaveError('Something went wrong')
         }
-    }
+    };
+
+    // reviews usestates
+    const [reviews, setReviews] = useState([])
+    const [reviewTitle, setReviewTitle] = useState('')
+    const [reviewBody, setReviewBody] = useState('')
+    const [replyingTo, setReplyingTo] = useState(null) // stores the id of review being replied to
+    const [replyBody, setReplyBody] = useState('')
+    const [reviewError, setReviewError] = useState(null)
 
     return(
         <div className="information-page_container">
