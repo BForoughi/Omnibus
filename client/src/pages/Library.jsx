@@ -4,7 +4,7 @@ import AppNavbar from '../components/Navbar'
 import { useNavigate } from 'react-router-dom'
 
 function Library(){
-    const { isLoggedIn } = useAuth()
+    const { isLoggedIn, logout } = useAuth()
     const [comics, setComics] = useState([])
     const [filter, setFilter] = useState('all') // tracks active filter
     const [loading, setLoading] = useState(true)
@@ -22,8 +22,15 @@ function Library(){
                     'Authorization': `Bearer ${token}`
                 }
             })
-            const data = await res.json()
 
+            // if token is expired or invalid, log them out
+            if(res.status === 403 || res.status === 401) {
+                logout()
+                navigate('/RegisterPage')
+                return
+            }
+
+            const data = await res.json()
             if(data.success){
                 setComics(data.comics)
             }
@@ -81,34 +88,6 @@ function Library(){
     }
 
     const filtered = getFilteredComics();
-
-    // this function is for when the user's token has expired - logs them out
-    const handleExpired = async () => {
-        try {
-            const token = localStorage.getItem('token')
-            const res = await fetch('/api/library', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-
-            // if token is expired or invalid, log them out
-            if(res.status === 403 || res.status === 401) {
-                logout()
-                navigate('/RegisterPage')
-                return
-            }
-
-            const data = await res.json()
-            if(data.success){
-                setComics(data.comics)
-            }
-        } catch (err) {
-            console.error("Failed to fetch library:", err)
-        } finally {
-            setLoading(false)
-        }
-    }
 
     return (
         <div className="d-flex gap-5">
