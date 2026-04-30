@@ -8,7 +8,6 @@ function Library(){
     const [comics, setComics] = useState([])
     const [filter, setFilter] = useState('all') // tracks active filter
     const [loading, setLoading] = useState(true)
-    const { isLoggedIn, logout } = useAuth()
     const navigate = useNavigate()
 
     useEffect(() => {
