@@ -478,4 +478,27 @@ app.post('/api/reviews', authenticateToken, async (req, res) => {
     console.error("Review save error:", err)
     res.status(500).json({ message: "Server error" });
   }
-})
+});
+
+// ---------DELETING REVIEWS---------
+app.delete('/api/review/:id', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  if(!id) return res.status(400).json({ message: "No review ID" });
+
+  try{
+    const deleteReview = await Review.findByIdAndDelete({
+      _id: id,
+      userId: req.user.userId
+    });
+
+    if(!deleteReview) return res.status(404).json({ message: "Review not found" });
+
+    res.status(200).json({
+      success: true,
+      message: "Review was deleted..."
+    });
+  }catch(err){
+    console.error("Review remove error:", err)
+    res.status(500).json({ message: "Server error" });
+  }
+});
