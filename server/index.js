@@ -275,7 +275,7 @@ app.post('/api/register', async (req, res) =>{
 
     // sign a token with their new user id
     const token = jwt.sign(
-      { userId: user._id },
+      { userId: user._id, username: user.username },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
@@ -302,9 +302,9 @@ app.post('/api/login', async(req, res) => {
     }
 
     const token = jwt.sign(
-      { userId: user._id },
+      { userId: user._id, username: user.username },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: '7d' }
     );
 
     return res.status(200).json({
@@ -450,5 +450,32 @@ app.get('/api/reviews/:comicId', async (req, res) => {
   }catch(err){
     console.error("error fetching reviews", err)
     res.status(500).json({success: false, message: "Server Error"})
+  }
+});
+
+// -------SAVING REVIEWS-------
+app.post('/api/reviews', authenticateToken, async (req, res) => {
+  const { comicId, comicType, title, body, parentId } = req.body;
+
+  if(!comicId) return res.status(400).json({ message: "No comic was found" });
+
+  try{
+    const saveReview = await Review.create({
+      userId: req.user.userId,
+      username: req.user.username,
+      comicId,
+      comicType,
+      title,
+      body,
+      parentId: parentId || null //null ensures it defaults to null if not provided
+    });
+
+    res.status(201).json({
+      success: true,
+      review: saveReview
+    });
+  }catch(err){
+    console.error("Review save error:", err)
+    res.status(500).json({ message: "Server error" });
   }
 })
