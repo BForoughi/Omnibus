@@ -496,6 +496,44 @@ body {
   .series-panel .carousel-track {
     width: calc(2 * 18vw + 1 * 17px);
   }
+
+  .information-page_container {
+    flex-direction: column; /* stacks navbar and content */
+  }
+
+  .information-page_inner {
+    width: 100%;
+  }
+
+  .information-title {
+    width: 100%;
+    font-size: 1.8rem;
+  }
+
+  .information-section_content {
+    flex-direction: column; 
+    align-items: center;
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
+
+  #resource-image {
+    width: 40vw;
+    max-width: 40vw;
+    max-height: 55vw;
+  }
+
+  .description {
+    width: 100%;
+  }
+
+  .details {
+    border-radius: 2vw;
+  }
+
+  .series-panel {
+    width: 100%;
+  }
 }
 
 /* phone */
@@ -527,6 +565,26 @@ body {
 
   .series-panel .carousel-track {
     width: calc(2 * 25vw + 1 * 17px);
+  }
+
+  .modal-btn_container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .info-btns {
+    font-size: 1.4rem;
+    text-align: justify;
+  }
+
+  .details{
+    margin-bottom: 3vw;
+  }
+
+  .series-panel_title{
+    margin-bottom: 4vw;
   }
 }
 
