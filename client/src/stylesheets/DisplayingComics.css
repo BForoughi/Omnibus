@@ -26,11 +26,12 @@
 }
 .featured-row{
     justify-content: center;
+    margin-bottom: 5vw;
 }
 
 .discover-header_container{
     margin-top: 3vw;
-    margin-bottom: 3vw;
+    margin-bottom: 2.5vw;
 }
 
 .discover-header{
@@ -53,6 +54,7 @@
     justify-content: center;
     gap: 15px;
     position: relative;
+    margin-bottom: 5vw;
 }
 
 .carousel-btn {
@@ -100,6 +102,10 @@
         min-width: 120px;
     }
 
+    .comic-card_name {
+        font-size: 0.95rem;
+    }
+
     .carousel-btn{
         margin-bottom: 13vw;
     }
@@ -140,5 +146,6 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+        font-size: 0.8rem;
     }
 }
