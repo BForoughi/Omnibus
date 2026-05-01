@@ -405,6 +405,31 @@ body {
   background-color: #FDFFF8;
 }
 
+.series-panel {
+  width: 86%;
+  margin-top: 5px;
+}
+
+.series-panel_title {
+  font-family: 'roboto-mono', monospace;
+  font-weight: 300;
+  text-decoration: underline;
+  margin-bottom: 1vw;
+  text-align: center;
+}
+
+.series-panel .comic-card {
+  width: 10vw;
+}
+
+.series-panel .carousel-track {
+  width: calc(5 * 10vw + 4 * 17px);
+}
+
+.series-panel .comic-card_name {
+  font-size: 0.75rem;
+}
+
 @keyframes shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
@@ -439,6 +464,7 @@ body {
   }
 }
 
+/* tablet */
 @media (max-width: 768px) {
   .banner-container {
     margin-top: 7vw;
@@ -460,6 +486,15 @@ body {
 
   #landingPageComics{
     width: 70%;
+  }
+
+  .series-panel .comic-card {
+    width: 18vw;
+    min-width: 80px;
+  }
+
+  .series-panel .carousel-track {
+    width: calc(2 * 18vw + 1 * 17px);
   }
 }
 
@@ -484,6 +519,14 @@ body {
 
   .search-results_searchbar{
     width: 95%;
+  }
+
+  .series-panel .comic-card {
+    width: 25vw;
+  }
+
+  .series-panel .carousel-track {
+    width: calc(2 * 25vw + 1 * 17px);
   }
 }
 

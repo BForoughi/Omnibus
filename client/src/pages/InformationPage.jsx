@@ -4,7 +4,8 @@ import AppNavbar from "../components/Navbar";
 import '../stylesheets/App.css'
 import '../stylesheets/Reviews.css'
 import InfoModal from "../components/InfoModal";
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../context/AuthContext';
+import ComicCarousel from "../components/ComicCarousel";
 
 function InformationPage() {
     const { id } = useParams();
@@ -23,12 +24,28 @@ function InformationPage() {
     const { isLoggedIn } = useAuth()
     const [showReviewForm, setShowReviewForm] = useState(false)
 
+    const [seriesIssues, setSeriesIssues] = useState([])
+
+    const fetchSeriesIssues = async (volumeId) => {
+        try {
+            const res = await fetch(`/api/volume/${volumeId}/issues`)
+            const data = await res.json()
+            if(data.success) setSeriesIssues(data.issues)
+        } catch(err) {
+            console.error("Failed to fetch series issues:", err)
+        }
+    };
+
     useEffect(() => {
         const fetchComic = async () => {
         try {
             const res = await fetch(`/api/info/${id}?type=${type}`);
             const data = await res.json();
             setResource(data);
+
+            // fetch series issues if applicable
+            if(type === 'volume') fetchSeriesIssues(id)
+            if(type === 'issue' && data.volume?.id) fetchSeriesIssues(data.volume.id)
         } catch (err) {
             console.error("Failed to fetch comics:", err);
         }
@@ -348,6 +365,16 @@ function InformationPage() {
                         </div>
                     </div>
                 </div>
+
+                {/* series issues panel */}
+                {seriesIssues.length > 0 && (
+                    <div className="series-panel">
+                        <h2 className="series-panel_title">
+                            {type === 'volume' ? 'Issues in this Series' : `Related issues for: ${resource.volume?.name}`}
+                        </h2>
+                        <ComicCarousel comics={seriesIssues} />
+                    </div>
+                )}
 
                 {/* reviews section */}
                 {(type === 'issue' || type === 'volume') && (

@@ -518,9 +518,10 @@ app.get('/api/volume/:volumeId/issues', async (req, res) => {
     const clean = data.results.map(i => ({
       id: i.id,
       name: i.name,
-      image: i.image?.medium_url,
+      image: i.image,
       issue_number: i.issue_number,
-      volume: i.volume
+      volume: i.volume,
+      resource_type: 'issue'
   }))
 
   res.json({ success: true, issues: clean })
