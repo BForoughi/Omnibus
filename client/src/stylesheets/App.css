@@ -586,5 +586,11 @@ body {
   .series-panel_title{
     margin-bottom: 4vw;
   }
+
+  #resource-image {
+    width: 37vw;
+    max-width: 40vw;
+    max-height: 53vw;
+  }
 }
 
