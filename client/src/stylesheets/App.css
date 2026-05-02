@@ -481,6 +481,18 @@ body {
     padding: 1.2vw 20vw 1.2vw 27.7vw;
     width: 130.1%;
   }
+
+  .register-container{
+    margin-top: 10vw;
+  }
+
+  .register-btn{
+    width: 50%;
+  }
+
+  .register-title_container{
+    margin-left: 3vw;
+  }
 }
 
 /* tablet */
@@ -577,6 +589,21 @@ body {
   .d-flex.gap-5 {
     flex-direction: column;
   }
+
+  .register-container {
+    width: 100%;
+    position: relative;
+    right: 60px;
+  }
+
+  .register-container_inner {
+    width: 85%;
+    padding: 4vw 8vw;
+  }
+
+  .auth-divider {
+    height: 7vw;
+  }  
 }
 
 /* phone */
@@ -668,6 +695,37 @@ body {
 
   .library-card_title {
     font-size: 0.75rem;
+  }
+
+  .register-container {
+    width: 100%;
+    margin-top: 20vw;
+  }
+
+  .register-container_inner {
+    width: 100%;
+    padding: 6vw 6vw;
+    border-width: 5px;
+    border-radius: 20px;
+  }
+
+  .register-input {
+    font-size: 1.1rem;
+    padding: 6px 14px;
+    border-radius: 12px;
+  }
+
+  .register-btn {
+    width: 50%;
+    font-size: 1rem;
+  }
+
+  .reg-titles {
+    font-size: 1.5rem;
+  }
+
+  .auth-divider {
+    height: 9vw;
   }
 }
 
