@@ -260,7 +260,7 @@ function InformationPage() {
     // -------------END-----------------
 
     return(
-        <div className="information-page_container">
+        <div className="information-page_container sticky-nav">
             <AppNavbar/>
 
             {/* -------MODAL CODE ------- */}

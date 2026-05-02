@@ -689,7 +689,8 @@ body {
 
   .library-filters {
     margin-left: -2vw;
-    padding: 1.2vw 2vw;
+    padding-top: 2vw;
+    padding-bottom: 2vw;
     width: 104%;
   }
 

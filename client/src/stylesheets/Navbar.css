@@ -11,6 +11,10 @@
     }
 }
 
+.sticky-nav .app-nav{
+    position: sticky;
+}
+
 .app-nav_inner{
     border-top: 3px solid black;
     border-bottom: 3px solid black;
@@ -125,11 +129,12 @@
         height: auto;
         top: 0;
         margin-left: 5px;
+        z-index: 1000;
     }
 
     .app-nav_inner{
-        border-top: 0px solid black;
-        border-bottom: 0px solid black;
+        border-top: 0px;
+        border-bottom: 0px;
     }
 
     .app-nav_inner::before {

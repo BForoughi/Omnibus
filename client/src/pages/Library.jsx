@@ -90,7 +90,7 @@ function Library(){
     const filtered = getFilteredComics();
 
     return (
-        <div className="d-flex gap-5">
+        <div className="d-flex gap-5 sticky-nav">
             <AppNavbar />
             <div className="library-container">
                 <h1 className="library-main-title discover-header">Library</h1>
