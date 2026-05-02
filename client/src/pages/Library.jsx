@@ -140,6 +140,7 @@ function Library(){
                                     src={comic.coverImage} 
                                     alt={comic.title}
                                     className="library-card_img"
+                                    onClick={() => navigate(`/info/${comic.comicId}?type=${comic.type}`)}
                                 />
                                 <div className="library-card_info d-flex justify-content-between align-items-center">
                                     <span className="library-card_title">{comic.title}</span>

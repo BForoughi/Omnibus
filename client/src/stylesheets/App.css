@@ -360,17 +360,26 @@ body {
 .library-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  /* gap: 1rem; */
+  margin-top: 2vw;
+  padding-left: 5.5vw;
+}
+
+.library-card{
+  width: 90%;
+  margin-bottom: 2vw;
 }
 
 .library-card_img {
   width: 100%;
   aspect-ratio: 2/3;
   object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #8B8B8B42;
+  cursor: pointer;
 }
 
 .library-filters{
-  /* margin: 40px 0px 40px 102px; */
   margin-top: 2vw;
   margin-bottom: 2vw;
   margin-left: -14.2vw;
@@ -407,7 +416,7 @@ body {
 
 .series-panel {
   width: 86%;
-  margin-top: 5px;
+  margin-top: 2vw;
 }
 
 .series-panel_title {
@@ -428,6 +437,10 @@ body {
 
 .series-panel .comic-card_name {
   font-size: 0.75rem;
+}
+
+.series-panel .carousel-wrapper{
+  margin-bottom: 0%;
 }
 
 @keyframes shimmer {
@@ -461,6 +474,12 @@ body {
 
   .search-results_searchbar{
     margin-bottom: 10px;
+  }
+
+  .library-filters{
+    margin-left: -22.2vw;
+    padding: 1.2vw 20vw 1.2vw 27.7vw;
+    width: 130.1%;
   }
 }
 
@@ -507,7 +526,7 @@ body {
 
   .information-title {
     width: 100%;
-    font-size: 1.8rem;
+    font-size: 1.7rem;
   }
 
   .information-section_content {
@@ -531,8 +550,32 @@ body {
     border-radius: 2vw;
   }
 
+  .details p{
+    font-size: 1.2rem;
+  }
+
   .series-panel {
     width: 100%;
+  }
+
+  .library-container {
+    width: 100%;
+  }
+
+  .library-grid {
+    grid-template-columns: repeat(3, 1fr);
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
+
+  .library-filters {
+    margin-left: -2vw;
+    padding: 1.2vw 2vw 1.2vw 9vw;
+    width: 103%;
+  }
+
+  .d-flex.gap-5 {
+    flex-direction: column;
   }
 }
 
@@ -579,8 +622,22 @@ body {
     text-align: justify;
   }
 
+  .information-title {
+    font-size: 1.3rem;
+  }
+
   .details{
     margin-bottom: 3vw;
+  }
+
+  .details p{
+    font-size: 1rem;
+    overflow-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .series-panel_title{
@@ -591,6 +648,26 @@ body {
     width: 37vw;
     max-width: 40vw;
     max-height: 53vw;
+  }
+
+  .library-container {
+    width: 100%;
+  }
+
+  .library-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
+
+  .library-filters {
+    margin-left: -2vw;
+    padding: 1.2vw 2vw;
+    width: 104%;
+  }
+
+  .library-card_title {
+    font-size: 0.75rem;
   }
 }
 
