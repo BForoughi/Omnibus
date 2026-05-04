@@ -53,6 +53,14 @@ function Discover(){
         fetchDiscover();
     }, []);
 
+    const [scrollY, setScrollY] = useState(0)
+
+    useEffect(() => {
+        const handleScroll = () => setScrollY(window.scrollY)
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+
     // show skeletons while loading
     if (loading) {
         return (
@@ -82,7 +90,15 @@ function Discover(){
             <Banner />
             <p id="slogan">Discover Your Favourite Comic Book Series</p>
             <div id="landingcomics-container" className="d-flex justify-content-center">
-                <img src={landingPageComics} alt="Five randomly chosen comics from a couple different publishers fanned out together" id="landingPageComics"/>
+                <img 
+                    src={landingPageComics} 
+                    alt="Five randomly chosen comics from a couple different publishers fanned out together" 
+                    id="landingPageComics"
+                    style={{
+                        transform: `translateY(${scrollY * -0.3999999999999}px)`,
+                        transition: 'transform 0.1s ease-out'
+                    }}
+                />
             </div>
             
             <div className="discover-container">
