@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import AppNavbar from '../components/Navbar'
 import { useNavigate } from 'react-router-dom'
+import ScrollToTop from '../components/ScrollTo';
 
 function Library(){
     const { isLoggedIn, logout } = useAuth()
@@ -158,6 +159,8 @@ function Library(){
                     </div>
                 )}
             </div>
+
+            <ScrollToTop />
         </div>
     )
 }

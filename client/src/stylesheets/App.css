@@ -443,6 +443,27 @@ body {
   margin-bottom: 0%;
 }
 
+.scroll-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2.5rem;  /* right side so it doesn't clash with show less which is centered */
+  z-index: 999;
+  background-color: #E8503A;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 1.7rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: opacity 0.3s ease;
+}
+
+.scroll-to-top:hover {
+  background-color: #c93e2a;
+}
+
 @keyframes shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }

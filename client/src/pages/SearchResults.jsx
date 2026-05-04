@@ -2,6 +2,7 @@ import { useState } from "react";
 import AppNavbar from "../components/Navbar"
 import { useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import ScrollToTop from '../components/ScrollTo';
 
 function SearchResultsPage (){
     const [results, setResults] = useState([]);
@@ -64,6 +65,7 @@ function SearchResultsPage (){
                 </div>
             </div>
         
+            <ScrollToTop />
         </>
     )
 }

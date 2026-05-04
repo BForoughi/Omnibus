@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import ComicCarousel from "../components/ComicCarousel";
 import ComicCardSkeleton from "../components/CardSkeleton";
 import { useNavigate, Link } from "react-router-dom";
+import ScrollToTop from '../components/ScrollTo';
 
 function Discover(){
     const navigate = useNavigate();
@@ -144,6 +145,8 @@ function Discover(){
                     <ComicCarousel comics={series}/>
                 </section>
             </div>
+
+            <ScrollToTop />
         </>
         
     )

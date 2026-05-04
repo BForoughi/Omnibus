@@ -6,6 +6,7 @@ import '../stylesheets/Reviews.css'
 import InfoModal from "../components/InfoModal";
 import { useAuth } from '../context/AuthContext';
 import ComicCarousel from "../components/ComicCarousel";
+import ScrollToTop from '../components/ScrollTo';
 
 function InformationPage() {
     const { id } = useParams();
@@ -478,6 +479,8 @@ function InformationPage() {
                 
                 {/* btm */}
             </div>
+
+            <ScrollToTop />
         </div>
     )
 }
