@@ -215,48 +215,54 @@ function InformationPage() {
         const children = reviews.filter(r => String(r.parentId) === String(parentId))
         if(children.length === 0) return null
 
-        return children.map(reply => (
-            <div key={reply._id} className="reply-card">
-                <div className="d-flex align-items-center gap-2">
-                    <span className="review-username">{reply.username}:</span>
-                    {isLoggedIn && reply.username === JSON.parse(localStorage.getItem('user'))?.username && (
-                        <button 
-                            className="review-delete-btn"
-                            onClick={() => handleDeleteReview(reply._id)}
+        return children.map(reply => {
+            const parentReview = reviews.find(r => String(r._id) === String(reply.parentId)) // moved inside map
+
+            return (
+                <div key={reply._id} className="reply-card">
+                    {parentReview && (
+                        <span className="reply-to">↩ replying to {parentReview.username}</span>
+                    )}
+                    <div className="d-flex align-items-center gap-2">
+                        <span className="review-username">{reply.username}:</span>
+                        {isLoggedIn && reply.username === JSON.parse(localStorage.getItem('user'))?.username && (
+                            <button 
+                                className="review-delete-btn"
+                                onClick={() => handleDeleteReview(reply._id)}
+                            >
+                                Delete
+                            </button>
+                        )}
+                    </div>
+                    <p className="review-body">{reply.body}</p>
+
+                    {isLoggedIn && (
+                        <button
+                            className="review-reply-btn"
+                            onClick={() => setReplyingTo(replyingTo === reply._id ? null : reply._id)}
                         >
-                            Delete
+                            {replyingTo === reply._id ? 'Cancel' : 'Reply'}
                         </button>
                     )}
+
+                    {replyingTo === reply._id && (
+                        <div className="reply-form">
+                            <textarea
+                                className="review-input review-textarea"
+                                placeholder="Write your reply..."
+                                value={replyBody}
+                                onChange={(e) => setReplyBody(e.target.value)}
+                            />
+                            <button className="info-btns" onClick={() => handleReply(reply._id)}>
+                                Post Reply
+                            </button>
+                        </div>
+                    )}
+
+                    {renderReplies(reply._id)}
                 </div>
-                <p className="review-body">{reply.body}</p>
-
-                {isLoggedIn && (
-                    <button
-                        className="review-reply-btn"
-                        onClick={() => setReplyingTo(replyingTo === reply._id ? null : reply._id)}
-                    >
-                        {replyingTo === reply._id ? 'Cancel' : 'Reply'}
-                    </button>
-                )}
-
-                {replyingTo === reply._id && (
-                    <div className="reply-form">
-                        <textarea
-                            className="review-input review-textarea"
-                            placeholder="Write your reply..."
-                            value={replyBody}
-                            onChange={(e) => setReplyBody(e.target.value)}
-                        />
-                        <button className="info-btns" onClick={() => handleReply(reply._id)}>
-                            Post Reply
-                        </button>
-                    </div>
-                )}
-
-                {/* recursively render replies to this reply */}
-                {renderReplies(reply._id)}
-            </div>
-        ))
+            )
+        })
     }
     // -------------END-----------------
 
