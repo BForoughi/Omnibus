@@ -14,7 +14,7 @@ const mongoPassword = process.env.MONGODB_PASSWORD
 const mongoUsername = process.env.MONGODB_USERNAME
 const mongoAppName = process.env.MONGODB_MYAPPNAME
 
-const connectionString = `mongodb+srv://${mongoUsername}:${mongoPassword}@timecap.jjo4ept.mongodb.net/${mongoAppName}?retryWrites=true&w=majority`
+const connectionString = `mongodb+srv://behroozforoughi_db_user:dl4doAgvvGbK5tor@timecap.jjo4ept.mongodb.net/Omnibus?retryWrites=true&w=majority`
 mongoose.connect(connectionString)
 
 // using jwt tokens for the first time, said to claude i want to learn how to use them for this project and for it to teach me using
