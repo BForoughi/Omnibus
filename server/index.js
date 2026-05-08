@@ -49,7 +49,7 @@ const KEY = process.env.API_KEY;
 // -------------- Server setup ------------
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'https://omnibus.vercel.app'],
+    origin: ['http://localhost:5173', 'https://omnibus-cyan.vercel.app'],
     credentials: true,
   }),
 );
