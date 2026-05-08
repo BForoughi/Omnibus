@@ -6,11 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      // This will redirect any requests to yourwebsite.com/api to the Express.js server
-      "/api": {
-        target: "http://localhost:3000",
-        changeOrigin: true,
-      },
-    },
+      '/api': 'https://omnibus-production-0f1a.up.railway.app'
+    }
   },
 });
