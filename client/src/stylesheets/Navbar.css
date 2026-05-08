@@ -33,7 +33,7 @@
 .app-nav_inner::after {
     content: '';
     position: absolute;
-    top: 275px; /* gap from bottom border */
+    top: 335px; /* gap from bottom border */
     left: 0;
     right: 0;
     border-bottom: 3px solid black;

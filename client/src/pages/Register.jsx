@@ -8,6 +8,7 @@ function Register(){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     const { login } = useAuth();
     const navigate = useNavigate();
@@ -30,6 +31,11 @@ function Register(){
     };
 
     const handleRegister = async () => {
+        if(password !== confirmPassword) {
+            setError('Passwords do not match')
+            return
+        };
+        
         const res = await fetch('/api/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -70,6 +76,26 @@ function Register(){
                     <div className="register-inputs_container">
                         <input className="register-input" type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}/>
                         <input className="register-input" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                        {activeTab === 'register' && (
+                            <>
+                                <input 
+                                    className="register-input" 
+                                    type="password" 
+                                    placeholder="Confirm Password" 
+                                    value={confirmPassword} 
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
+                                {confirmPassword && (
+                                    <p style={{ 
+                                        fontSize: '1.1rem', 
+                                        color: password === confirmPassword ? 'green' : 'red',
+                                        fontFamily: 'roboto-mono, monospace'
+                                    }}>
+                                        {password === confirmPassword ? '✓ Passwords match' : '✗ Passwords do not match'}
+                                    </p>
+                                )}
+                            </>
+                        )}
 
                         {/* shows error message if login/register fails */}
                         {error && <p className="text-danger">{error}</p>}

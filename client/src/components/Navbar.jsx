@@ -31,6 +31,9 @@ function AppNavbar(){
                             <span className='app-nav_label'>Library</span>
                         </Nav.Link>
                         <NavSearchBar />
+                        <Nav.Link as={NavLink} to="/HowToUsePage" className='app-nav_link'>
+                            <span className='app-nav_label'>About</span>
+                        </Nav.Link>
                         <Nav.Link as={NavLink} to="/RegisterPage" className='app-nav_link'>
                             {isLoggedIn
                                 ? <button style={{border: "none", backgroundColor: "#FDFFF8"}} className='app-nav_label app-nav_register-label' onClick={handleLogout}>Logout</button>

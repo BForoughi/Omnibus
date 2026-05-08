@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import { Routes, BrowserRouter, Route } from "react-router-dom";
 import SearchResultsPage from './pages/SearchResults';
 import InformationPage from './pages/InformationPage';
+import HowToUse from './pages/HowToUse';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/LibraryPage" element={<Library />} />
         <Route path="/RegisterPage" element={<Register />} />
         <Route path="/SearchPage" element={<SearchResultsPage />} />
+        <Route path="/HowToUsePage" element={<HowToUse />} />
         <Route path="/info/:id" element={<InformationPage />} />
       </Routes>
     </BrowserRouter>
