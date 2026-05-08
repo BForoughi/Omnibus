@@ -53,7 +53,7 @@ function Register(){
 
 
     return(
-        <div className="d-flex">
+        <div className="d-flex register-page">
             <AppNavbar/>
             <div className="register-container d-flex justify-content-center align-items-center">
                 <div className="register-container_inner">
