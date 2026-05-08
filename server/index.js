@@ -13,6 +13,7 @@ import { Review } from './models/reviewModel.js'
 const mongoPassword = process.env.MONGODB_PASSWORD
 const mongoUsername = process.env.MONGODB_USERNAME
 const mongoAppName = process.env.MONGODB_MYAPPNAME
+// changed my password haha
 
 const connectionString = `mongodb+srv://${mongoUsername}:${mongoPassword}@timecap.jjo4ept.mongodb.net/${mongoAppName}?retryWrites=true&w=majority`
 mongoose.connect(connectionString)
