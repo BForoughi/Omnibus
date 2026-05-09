@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { createPortal } from "react-dom";
 
 function InfoModal ({ title, items, onClose }){
     const navigate = useNavigate();
-    return(
+    
+    return createPortal(
         <div className='modal-backdrop' onClick={onClose}>
             <div className='modal-content' onClick={(e) => e.stopPropagation()}>
                 <h2>{title}</h2>
@@ -25,7 +27,8 @@ function InfoModal ({ title, items, onClose }){
                     ))}
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body // renders directly on body, outside any flex containers
     )
 };
 
