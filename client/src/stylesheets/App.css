@@ -309,12 +309,14 @@ body {
 }
 
 .modal-content {
-  background: #FDFFF8;
+  background: #FDFFF8!important;
   border-radius: 8px;
   padding: 30px;
   width: 60%;
   max-height: 80vh;
   overflow-y: auto;  /* scrollable if lots of creators */
+  position: relative;
+  z-index: 1001;
 }
 .modal-content h2 {
   font-family: 'roboto-mono', monospace;
