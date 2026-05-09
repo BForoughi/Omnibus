@@ -295,7 +295,7 @@ body {
   margin-bottom: 8px;
 }
 
-.modal-backdrop {
+.info-modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -308,7 +308,7 @@ body {
   justify-content: center;
 }
 
-.modal-content {
+.info-modal-content {
   background: #FDFFF8!important;
   border-radius: 8px;
   padding: 30px;
@@ -318,7 +318,7 @@ body {
   position: relative;
   z-index: 1001;
 }
-.modal-content h2 {
+.info-modal-content h2 {
   font-family: 'roboto-mono', monospace;
   font-weight: 600;
 }
@@ -716,7 +716,7 @@ body {
     width: calc(2 * 25vw + 1 * 17px);
   }
 
-  .modal-btn_container {
+  .info-modal-btn_container {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -819,13 +819,13 @@ body {
     justify-items: center;
   }
 
-  .modal-content {
+  .info-modal-content {
     background-color: #FDFFF8 !important;
     width: 90%;
     max-height: 70vh;
   }
 
-  .modal-backdrop {
+  .info-modal-backdrop {
     align-items: flex-start;
     padding-top: 10vw;
   }

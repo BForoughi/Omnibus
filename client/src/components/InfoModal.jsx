@@ -5,8 +5,8 @@ function InfoModal ({ title, items, onClose }){
     const navigate = useNavigate();
     
     return createPortal(
-        <div className='modal-backdrop' onClick={onClose}>
-            <div className='modal-content' onClick={(e) => e.stopPropagation()}>
+        <div className='info-modal-backdrop' onClick={onClose}>
+            <div className='info-modal-content' onClick={(e) => e.stopPropagation()}>
                 <h2>{title}</h2>
                 <hr />
                 <div className='creators-grid'>

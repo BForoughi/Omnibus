@@ -317,7 +317,7 @@ function InformationPage() {
 
                             <div className="d-flex justify-content-between info-btns_container">
                                 {(type === "issue" || type === "volume") && 
-                                    <div className="modal-btn_container">
+                                    <div className="info-modal-btn_container">
                                         <button className="info-btns margin-btns" onClick={() => setActiveModal('creators')}>View Creators</button>
                                         <button className="info-btns margin-btns" onClick={() => setActiveModal('characters')}>View Characters</button>
 
