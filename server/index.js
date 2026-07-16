@@ -7,6 +7,8 @@ import jwt from 'jsonwebtoken';
 import * as users from './models/userModel.js'
 import { LibraryItem } from './models/libraryModel.js'
 import { Review } from './models/reviewModel.js'
+import path from "path"
+import { fileURLToPath } from "url";
 
 // .env variables
 // -------MongoDB-------
@@ -49,12 +51,14 @@ const KEY = process.env.API_KEY;
 // -------------- Server setup ------------
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'https://omnibus-cyan.vercel.app'],
+    origin: ['http://localhost:5173', 'https://omnibus-comics.com'], // keep localhost for local dev
     credentials: true,
   }),
 );
 app.use(express.json());
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const clientBuildPath = path.join(__dirname, "../client/dist"); // adjust if your folder structure differs
+app.use(express.static(clientBuildPath));
 
 // -------- API Routers --------
 
@@ -530,3 +534,10 @@ app.get('/api/volume/:volumeId/issues', async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" })
   }
 })
+
+// catch all route, for when someone tries entering a url that doesnt exist they go to index.html instead of getting a 404 error
+app.get("*splat", (req, res) => {
+  res.sendFile(path.join(clientBuildPath, "index.html"));
+});
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
