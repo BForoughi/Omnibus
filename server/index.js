@@ -57,7 +57,7 @@ app.use(
 );
 app.use(express.json());
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const clientBuildPath = path.join(__dirname, "../client/dist"); // adjust if your folder structure differs
+const clientBuildPath = path.join(__dirname, "public"); // instead of "../client/dist"
 app.use(express.static(clientBuildPath));
 
 // -------- API Routers --------
